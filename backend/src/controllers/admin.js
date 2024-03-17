@@ -3,9 +3,9 @@ import Washerman from '../schemas/washerman.js';
 import Data from '../schemas/data.js';
 
 const registerWasherman = async (req, res) => {
-    const { id, name, pass, halls, upiID } = req.body;
+    const { contact, name, pass, halls, accountID } = req.body;
 
-    if (!id || !name || !halls || !pass || !upiID) {
+    if (!contact || !name || !halls || !pass || !accountID) {
         res.status(500).json({message: 'Bad Request (Wrong/Missing Keys in json)'});
         return;
     }
@@ -13,9 +13,9 @@ const registerWasherman = async (req, res) => {
     const passHash = sha256(pass);
 
     try {
-        const w = await Washerman.findOne({ id });
+        const w = await Washerman.findOne({ contact });
         if (w) {
-            return res.status(400).json({ message: 'Washerman with the same ID already exists' });
+            return res.status(400).json({ message: 'Washerman with the same contact already exists' });
         }
 
         const upcomingDate = new Date();
@@ -37,12 +37,12 @@ const registerWasherman = async (req, res) => {
         }));
 
         const newWasherman = new Washerman({
-            id,
+            contact,
             name,
             passHash,
             halls: hallRefs,
             upcomingDate,
-            upiID
+            accountID
         });
 
         await newWasherman.save();
@@ -84,7 +84,6 @@ const addHallData = async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 };
-
 
 function sha256(data) {
     return crypto.createHash('sha256').update(data).digest('hex');
