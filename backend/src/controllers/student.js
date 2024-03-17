@@ -58,9 +58,74 @@ export const register = async (req, res) => {
     }
 };
 
+const requestWash = async (req, res) => {
+    try {
+        const student = await Student.findOne({ roll: req.user.roll }).populate('washerman');
+        if (!student) {
+            return res.status(404).json({ success: false, message: 'Student not found' });
+        }
+
+        const { clothes } = req.body;
+        const { washerman } = student;
+
+        if (!washerman.wsConn) {
+            return res.status(400).json({ success: false, message: 'Washerman not logged in' });
+        }
+
+        const request = {
+            type: 'requestWash',
+            data: {
+                clothes,
+                student: {
+                    name: student.name,
+                    roll: student.roll,
+                    hall: student.hall,
+                    wing: student.wing
+                }
+            }
+        };
+        washerman.wsConn.send(JSON.stringify(request));
+
+        res.status(200).json({ success: true, message: 'Request sent successfully' });
+
+        washerman.wsConn.on('message', (message) => {
+            const response = JSON.parse(message);
+            if (response.type === 'acceptRequest' && response.roll === student.roll) {
+                // Add a new record to the student's documents
+                const record = { date: new Date(), clothes };
+                student.records.push(record);
+                student.save();
+            }
+        });
+
+    } catch (error) {
+        console.error('Error handling requestWash:', error);
+        res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+};
+
+const fetchDates = async (req, res) => {
+    try {
+        const student = await Student.findOne({ roll: req.user.roll });
+        if (!student) {
+            return res.status(404).json({ success: false, message: 'Student not found' });
+        }
+
+        const dates = student.records.map(record => record.date.toDateString());
+
+        return res.status(200).json({ success: true, dates });
+    } catch (error) {
+        console.error('Error fetching dates:', error);
+        return res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+};
+
 const clearDue = async (req, res) => {
     try {
         const student = await Student.findOne({ roll: req.user.roll }).populate('washerman');
+        if (!student) {
+            return res.status(404).json({ success: false, message: 'Student not found' });
+        }
 
         // No Due
         if (student.dueAmount === 0) {
@@ -103,10 +168,49 @@ const fetchRecord = async (req, res) => {
     }
 };
 
+const fetchReceipt = async (req, res) => {
+    const { date } = req.body;
+
+    try {
+        const student = await Student.findOne({ roll: req.user.roll });
+        if (!student) {
+            return res.status(404).json({ success: false, message: 'Student not found' });
+        }
+
+        // Getting receipts for the requested date
+        const receiptsForDate = student.receipts.filter(receipt => {
+            const receiptDate = new Date(receipt.timestamp);
+            const queryDate = new Date(date);
+            return receiptDate.toDateString() === queryDate.toDateString();
+        });
+
+        return res.status(200).json({ success: true, receipts: receiptsForDate });
+    } catch (error) {
+        console.error('Error fetching receipts:', error);
+        return res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+};
+
+const paymentDates = async (req, res) => {
+    try {
+        const student = await Student.findOne({ roll: req.user.roll });
+        if (!student) {
+            return res.status(404).json({ success: false, message: 'Student not found' });
+        }
+
+        const paymentDates = student.receipts.map(receipt => receipt.timestamp.toDateString());
+
+        return res.status(200).json({ success: true, paymentDates });
+    } catch (error) {
+        console.error('Error fetching payment dates:', error);
+        return res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+};
+
 function sha256(data) {
     return crypto.createHash('sha256').update(data).digest('hex');
-}
+};
 
-const student = { register, clearDue, fetchRecord };
+const student = { register, requestWash ,fetchDates, clearDue, fetchRecord, fetchReceipt, paymentDates};
 
 export default student;
