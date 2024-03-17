@@ -10,7 +10,7 @@ const adminLogin = async (req, res) => {
         return;
     }
     if (username === process.env.ADMIN_USERNAME && password === process.env.ADMIN_PASSWORD) {
-        const token = jwt.sign({ username }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ username }, process.env.JWT_SECRET, { expiresIn: '12h' });
         res.cookie('token', token, { httpOnly: true });
         res.status(200).json({ message: 'Admin logged in successfully' });
     } else {
@@ -18,30 +18,70 @@ const adminLogin = async (req, res) => {
     }
 };
 
-const userLogin = async (req, res) => {
-    const { rollORid, pass, type } = req.body;
+const studentLogin = async (req, res) => {
+    const { roll, pass } = req.body;
     
     try {
         let user;
-        
-        if (type === 'student') {
-            user = await Student.findOne({ roll:rollORid });
-        } else if (type === 'washerman') {
-            user = await Washerman.findOne({ id:rollORid });
-        } else {
-            return res.status(400).json({ message: 'Invalid user type' });
-        }
+
+        user = await Student.findOne({ roll:roll }).populate('washerman');
 
         if (!user) {
-            return res.status(401).json({ message: 'User not found' });
+            return res.status(401).json({ message: 'student not found' });
         }
 
         const hashedpass = sha256(pass);
 
         if (user.passHash === hashedpass) {
-            const token = jwt.sign({ rollORid, type }, process.env.JWT_SECRET, { expiresIn: '1h' });
+            const token = jwt.sign({ roll }, process.env.JWT_SECRET, { expiresIn: '12h' });
             res.cookie('token', token, { httpOnly: true });
-            res.status(200).json({ message: 'User logged in successfully' });
+
+            res.cookie('info', JSON.stringify({
+                roll,
+                name: user.name,
+                hall: user.hall,
+                wing: user.wing,
+                washerman: {
+                    name: user.washerman.name,
+                    upcomingDate: user.washerman.upcomingDate,
+                    contact: user.washerman.contact
+                }
+            }), { httpOnly: true });
+
+            res.status(200).json({ message: 'student logged in successfully' });
+        } else {
+            res.status(401).json({ message: 'Invalid credentials' });
+        }
+    } catch (error) {
+        console.error('Error logging in user:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+const washermanLogin = async (req, res) => {
+    const { contact, pass } = req.body;
+    
+    try {
+        let user;
+
+        user = await Washerman.findOne({ contact:contact });
+
+        if (!user) {
+            return res.status(401).json({ message: 'washerman not found' });
+        }
+
+        const hashedpass = sha256(pass);
+
+        if (user.passHash === hashedpass) {
+            const token = jwt.sign({ contact }, process.env.JWT_SECRET, { expiresIn: '12h' });
+            res.cookie('token', token, { httpOnly: true });
+
+            res.cookie('info', JSON.stringify({
+                contact,
+                name: user.name,
+            }), { httpOnly: true });
+
+            res.status(200).json({ message: 'washerman logged in successfully' });
         } else {
             res.status(401).json({ message: 'Invalid credentials' });
         }
@@ -53,6 +93,7 @@ const userLogin = async (req, res) => {
 
 const logout = (req, res) => {
     res.clearCookie('token');
+    res.clearCookie('info')
     res.status(200).json({ message: 'Logged out successfully' });
 };
 
@@ -60,6 +101,6 @@ function sha256(data) {
     return crypto.createHash('sha256').update(data).digest('hex');
 }
 
-const session = { adminLogin, userLogin, logout };
+const session = { adminLogin, studentLogin, washermanLogin, logout };
 
 export default session;
