@@ -9,8 +9,8 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  min-width: 200px;
+  justify-content: center;
+  min-width: 250px;
   /* height: 50vh; */
   border-radius: 5%;
   border: 1px solid #ccc;
@@ -19,7 +19,7 @@ body {
 }
 
 .form input {
-  margin: 0;
+  margin-left: 0;
   width: 250px;
   height: 25px;
   padding: 5px;
@@ -86,36 +86,9 @@ a {
   color: #433c87;
 }
 
-@media(max-width: 500px) {
-  .form {
-    width: 230px;
-    padding: 20px;
-  }
-  .form input {
-    width: 200px;
-  }
-  .form .input-container {
-    font-size: small;
-  }
-  .form label {
-    font-size: smaller;
-  }
 
-  .form .dropdown-container {
-    width: 215px;
+@media (max-width: 400px) {
+  .form{
+    width: 65%;
+    }
   }
-  .form .dropdown{
-    width: 100%;
-  }
-  .form .form-footer {
-    font-size: small;
-  }
-  .button-Type1 {
-    min-width: 100px;
-    height: 30px;
-    padding: 5px 10px;
-  }
-}
-
-
-
