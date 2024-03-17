@@ -1,4 +1,4 @@
-.OTP-button_washer {
+.OTP-button_washer{
   width: 48%;
   padding: 10px;
   border: 1px solid #f8dada;
@@ -7,33 +7,35 @@
   margin-top: 5px;
   color: white;
   background-image: linear-gradient(to bottom, black, #302b2b);
-
+  
 }
-
 .OTP-button_washer:hover {
   background-image: linear-gradient(to bottom, rgb(51, 48, 48), #645f5f);
   cursor: pointer;
 }
-
-.dropdown {
-
+.dropdown{
+  margin-right: 10px;
   width: 260px;
   height: 37px;
   padding: 5px;
   border: 1px solid #ccc;
   border-radius: 7px;
 }
-
-.dropdown-container {
+.dropdown-container{
   display: flex;
   justify-content: space-between;
   border-radius: 5px;
   box-sizing: border-box;
   margin-bottom: 10px;
-
+  
+}
+.messages_washer {
+  margin-top: 10px;
 }
 
-.messages_washer {
+.success_washer,
+.error_washer {
+  text-align: center;
   margin-top: 10px;
 }
 
@@ -78,24 +80,25 @@
   transform-origin: 0% 0%;
   transform: rotatez(-45deg);
 }
-
-.otp-input-container {
-  display: block;
-  margin: 5px;
-  margin-left: 20px;
+#OTP_Container{
+  margin-left: 14px;
 }
-label {
-  font-size: small;
+#form_Student {
+ height: 85%;
 }
 
 
-#au-input {
-  width: 23px;
-  min-height: 23px;
-  font-size: 16px;
-  text-align: center;
-  border: 1px solid #302e2e;
-  box-shadow: #6e756f;
-  border-radius: 4px;
-  margin: 0 5px;
+@media (max-width: 500px) {
+  #form_Student {
+    margin-top: 100px;
+    margin-bottom: 40px;
+    height: 99%;
+    margin-top: 120px;
+    margin-bottom: 10px;
+    
+  }
+  
+  .back-button-container_washer {
+    width: 97%;
+  }
 }
