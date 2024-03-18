@@ -9,6 +9,10 @@ import washerman from '../controllers/washerman.js';
 
 const router = express.Router();
 
+router.get('/', (req, res) => {
+    res.send('Welcome to DBMS');
+});
+
 // Session Routes
 router.post('/session/admin/login', session.adminLogin);
 router.post('/session/student/login', session.studentLogin);
