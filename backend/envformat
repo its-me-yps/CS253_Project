@@ -20,4 +20,8 @@ EMAIL_PASS=your_password
 // RazorPay Api Keys
 KEY_ID=razorpay_key_id
 KEY_SECRET=razorpay_key_secret
-WEBHOOK_SECRET=razorpay_webhook_secret
+WEBHOOK_SECRET=razorpay_webhook_secret  
+
+FRONTEND_URL=frontend_url  
+WS_URL=websocket_url
+
