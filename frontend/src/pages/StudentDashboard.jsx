@@ -9,14 +9,24 @@ import { useNavigate } from 'react-router-dom';
 
 function StudentDashboard(){
 
-    const [cookies, setCookie, removeCookie] = useCookies(['user']);
-    const user = cookies.user;
+    // const [cookies, setCookie, removeCookie] = useCookies(['user']);
+    // const user = cookies.user;
 
    const navigate = useNavigate();
 
+   const user = {
+       profilepic: "",
+       name: "Abhishek Kumar",
+       email: "abc",
+       
+    };
+
     function onLogout() {
         // end session from backend
-        console.log("Logout buttons pressed");
+        const response = fetch(`${process.env.REACT_APP_BACKEND_URL}/session/logout`, {
+            method: "GET",
+            credentials: "include",
+        });
         navigate("/");
     }
 

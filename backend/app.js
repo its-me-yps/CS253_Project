@@ -45,4 +45,3 @@ nodemon({
     ignore: ['node_modules/'] // Ignore changes in the node_modules directory
 });
 
-module.exports = app;

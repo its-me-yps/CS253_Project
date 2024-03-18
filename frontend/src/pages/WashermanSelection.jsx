@@ -1,6 +1,6 @@
 import '../styles/WashermanSelection.css';
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 
 function WashermanSelection() {
@@ -10,6 +10,8 @@ function WashermanSelection() {
     const [selectedWing, setSelectedWing] = useState('');
     const [hallsData, setHallsData] = useState([]);
     const [cookies] = useCookies(['info']);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         // Extracting halls data from the cookie
@@ -34,8 +36,7 @@ function WashermanSelection() {
         if (selectedHall === '' || selectedWing === '') {
             alert('Please select hall and wing');
         } else {
-            console.log('Hall:', selectedHall);
-            console.log('Wing:', selectedWing);
+            navigate('/WashermanDashboard', { state: { hall: selectedHall, wing: selectedWing } });
         }
     };
     
