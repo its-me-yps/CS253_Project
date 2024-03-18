@@ -16,11 +16,12 @@ app.use(cookieParser());
 // Loading env variables
 dotenv.config();
 
-const corsOptions = {
-    origin: process.env.FRONTEND_URL,
-    credentials: true,
-};
-app.use(cors(corsOptions));
+app.use(cors({
+    origin: (origin, callback) => {
+      callback(null, origin); // Allow the requesting origin dynamically
+    },
+    credentials: true
+  }));
 
 // Use Morgan for HTTP request logging
 app.use(morgan('dev'));

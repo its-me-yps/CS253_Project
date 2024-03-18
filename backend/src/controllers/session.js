@@ -34,20 +34,20 @@ const studentLogin = async (req, res) => {
 
         if (user.passHash === hashedpass) {
             const token = jwt.sign({ roll }, process.env.JWT_SECRET, { expiresIn: '12h' });
-            res.cookie('token', token, { httpOnly: true });
-
-            res.cookie('info', JSON.stringify({
-                roll,
-                name: user.name,
-                hall: user.hall,
-                wing: user.wing,
-                washerman: {
-                    name: user.washerman.name,
-                    upcomingDate: user.washerman.upcomingDate,
-                    contact: user.washerman.contact
-                },
-                lastCleared: user.lastCleared
-            }), { httpOnly: true });
+            res.cookie('token', token, cookieOptions);
+              
+              res.cookie('info', JSON.stringify({
+                  roll,
+                  name: user.name,
+                  hall: user.hall,
+                  wing: user.wing,
+                  washerman: {
+                      name: user.washerman.name,
+                      upcomingDate: user.washerman.upcomingDate,
+                      contact: user.washerman.contact
+                  },
+                  lastCleared: user.lastCleared
+              }), cookieOptions);
 
             res.status(200).json({ message: 'student logged in successfully' });
         } else {
@@ -92,7 +92,7 @@ const washermanLogin = async (req, res) => {
                 name: user.name,
 
                 halls: user.halls
-            }), { httpOnly: true });
+            }), cookieOptions);
 
             res.status(200).json({ message: 'Washerman logged in successfully' });
         } else {
@@ -133,6 +133,20 @@ const washermanLogout = async (req, res) => {
 function sha256(data) {
     return crypto.createHash('sha256').update(data).digest('hex');
 }
+
+// Deployment
+const cookieOptions = {
+    httpOnly: false,
+    secure: true,
+    sameSite: 'None',
+    path: '/',
+    domain: 'backend-ssnn.onrender.com'
+  };
+
+// For local testing
+//   const cookieOptions = {
+//     httpOnly: true,
+//   };
 
 const session = { adminLogin, studentLogin, washermanLogin, logout, washermanLogout };
 
