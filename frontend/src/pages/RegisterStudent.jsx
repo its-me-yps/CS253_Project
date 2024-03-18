@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/RegisterStudent.css';
 import { useNavigate } from 'react-router-dom';
+
 
 function RegisterStudent() {
     // States for registration
@@ -29,12 +30,25 @@ function RegisterStudent() {
         }));
     };
 
+    const [otp, setOtp] = useState(['', '', '', '', '', '']);
+    const inputRefs = useRef([]);
+    const handleOtpChange = (e, index) => {
+        const newOtp = [...otp];
+        newOtp[index] = e.target.value;
+        setOtp(newOtp);
+        formData.otp = newOtp.join('');
+        if (e.target.value !== '') {
+            if (index < inputRefs.current.length - 1) {
+                inputRefs.current[index + 1].focus();
+            }
+    }
+    };
     // Handling the form submission
     const handleRegister = () => {
 
         const Register = async () => {
 
-            const response = await fetch('http://localhost:8080/register', {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/student/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -67,7 +81,7 @@ function RegisterStudent() {
 
     const sendOtpRequest = () => {
         const sendOtp = async () => {
-            const response = await fetch('http://localhost:8080/sendOtp', {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/sendAuthCode`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -112,8 +126,8 @@ function RegisterStudent() {
     }
 
     return (
-        <div className="super-box" id = "superbox_student">
-            <div className="form" id = "form_Student">
+        <div className="flex items-center justify-center h-screen p-10 max-w-xl mx-auto" style={{ backgroundColor: '#8CB9BD' }} >
+            <div className="form pt-8 pb-8 ">
                 <h1>Register</h1>
                 <br />
                 <div className="input-container">
@@ -167,14 +181,14 @@ function RegisterStudent() {
                     />
                 </div>
 
-                <div className="dropdown-container">
+                <div className="dropdown-container ">
                     <select
                         className="dropdown"
                         name="hall"
                         value={formData.hall}
                         onChange={handleChange_student}
                     >
-                        <option value="" disabled>
+                        <option value="" disabled className="font-thin">
                             Select Hall
                         </option>
                         <option value="hall-1">Hall 1</option>
@@ -182,7 +196,6 @@ function RegisterStudent() {
                         <option value="hall-3">Hall 3</option>
                         <option value="hall-4">Hall 4</option>
                         <option value="hall-5">Hall 5</option>
-                        <option value="hall-6">Hall 6</option>
                     </select>
                 </div>
 
@@ -201,7 +214,6 @@ function RegisterStudent() {
                         <option value="wing-c">Wing c</option>
                         <option value="wing-d">Wing d</option>
                         <option value="wing-e">Wing e</option>
-                        <option value="wing-f">Wing f</option>
                     </select>
                 </div>
                 {!otpSent &&
@@ -212,28 +224,37 @@ function RegisterStudent() {
                     </div>
                 }
                 {otpSent && (
-                    <div>
-                        <div className="input-container" id = "OTP_Container">
-                            <label>OTP: </label>
-                            <input
-                                type="text"
-                                placeholder="Enter OTP"
-                                name="otp"
-                                value={formData.otp}
-                                onChange={handleChange_student}
-                            />
-                        </div>
+                    <div className="" >
+                         <label className="text-center">Enter OTP: </label>
+                            <div className=" flex items-center justify-center" >
+                                
+                                {otp.map((digit, index) => (
+                                    <input className="p-6 m-4 flex items-center justify-center text-center"
+                                    style={{width:'30px'}}
+                                        key={index}
+                                        type="text"
+                                        value={digit}
+                                        onChange={(e) => handleOtpChange(e, index)}
+                                        maxLength={1}
+                                        ref={(ref) => (inputRefs.current[index] = ref)}
+                                    />
+                                ))}
+                            </div>
                         <div className="button-container">
+                            <div className="p-1">
                         <button className='button-Type1'onClick={sendOtpRequest}>Resend OTP</button>
+                        </div>
+                        <div className='p-1'>
                             <button className="button-Type1" onClick={handleRegister}>
                                 Register
                             </button>
+                            </div>
                         </div>
                     </div>
                 )}
 
                 <div className="form-footer">
-                    <p>Already have an account? <Link to="/login?type=Student">Login Here
+                    <p>Already have an account? <Link className="text-blue-800" to="/login?type=student">Login Here
                     </Link></p>
                 </div>
             </div>

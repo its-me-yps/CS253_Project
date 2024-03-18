@@ -45,7 +45,7 @@ function ResetPassword() {
         }
         else {
             const sendOtp = async () => {
-                const response = await fetch('http://localhost:8080/sendOtp', {
+                const response = await fetch('process.env.REACT_APP_BACKEND_URL/sendAuthCode', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -74,7 +74,7 @@ function ResetPassword() {
     const handleReset = () => {
 
         const resetPwd = async () => {
-            const response = await fetch('http://localhost:8080/resetPwd', {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/resetpassword`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -116,9 +116,9 @@ function ResetPassword() {
 
 
     return (
-        <div className="super-box">
-            <div className="form">
-                <div className='ArrowContainer_washer' ><Link to={'/Login?type=Student'}><FaArrowLeft className='arrow_washer' /></Link></div>
+        <div className="flex items-center justify-center h-screen p-10 max-w-xl mx-auto" style={{ backgroundColor: '#8CB9BD' }}>
+            <div className="form pl-12">
+                <div className='ArrowContainer_washer' ><Link to={'/Login?type=student'}><FaArrowLeft className='arrow_washer' /></Link></div>
 
                 <h1>Verify</h1>
                 <div className="input-container">
@@ -140,7 +140,7 @@ function ResetPassword() {
                         onChange={handleDataChange} />
                 </div>
                 {!otpSent &&
-                    <div className="button-container">
+                    <div className="button-container mt-6">
                         <button className="button-Type1" onClick={sendOtpRequest}>
                             Generate OTP
                         </button>
@@ -167,10 +167,12 @@ function ResetPassword() {
                                 value={formData.confirmPassword}
                                 onChange={handleDataChange} />
                         </div>
-                            <div className="otp-input-container">
-                                <label>Enter OTP: </label>
+                        <label>Enter OTP: </label>
+                            <div className=" flex items-center justify-center max-w-0 ml-3" >
+                                
                                 {otp.map((digit, index) => (
-                                    <input id='au-input'
+                                    <input className="p-6 m-4 flex items-center justify-center text-center"
+                                    style={{width:'30px'}}
                                         key={index}
                                         type="text"
                                         value={digit}

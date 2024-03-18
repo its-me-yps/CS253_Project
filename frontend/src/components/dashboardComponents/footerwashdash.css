@@ -1,0 +1,40 @@
+.footer-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f2f2f2;
+    padding: 20px;
+    border-radius: 10px;
+    width: 500px;
+    margin: auto;
+    border-bottom: 3.5px solid rgba(0, 145, 255, 0.934);
+    margin-top: 10px;
+}
+.print-button ,.cloths-button {
+    padding: 10px ;
+    color: #fff ;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 20px !important;
+    margin-right: 20px !important;
+    
+}
+
+.print-button:hover ,.cloths-button:hover {
+    background-color: #0e6ae3 !important;
+}
+
+@media(max-width:500px){
+    .footer-container{
+        width: 235px;
+        padding: 5px;
+        height: 60px;
+    }
+    .print-button ,.cloths-button {
+        margin-left: 10px !important;
+        margin-right: 10px !important;
+        padding: 0px;
+        height: 45px !important;
+    }
+}

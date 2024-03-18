@@ -90,6 +90,7 @@ const washermanLogin = async (req, res) => {
             res.cookie('info', JSON.stringify({
                 contact,
                 name: user.name,
+
                 halls: user.halls
             }), { httpOnly: true });
 

@@ -1,0 +1,135 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 530px;
+  margin: auto;
+  padding: 20px;
+  border-radius: 10px;
+  
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  border-bottom: 0.2px solid black;
+  border-radius: 10px;
+  background-color: antiquewhite;
+}
+.calendar-container {
+  margin: auto;
+  margin-top: 20px;
+}
+.calender{
+  width: 350px !important;
+  border-radius: 10px;
+  border: 2px solid rgb(0, 170, 255);
+ /* padding: 20px; */
+ background-color: rgb(242 242 242,0.2);
+}
+.event-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 20px;
+}
+
+.event-form {
+  background-color: #f2f2f2;
+  border-radius: 10px;
+  padding: 20px;
+  width: 300px;
+  margin-bottom: 20px;
+  border: 2px solid rgb(0, 170, 255);
+}
+input{
+  height:30px;
+  border: 2px solid rgb(0, 170, 255);
+  margin-right: 10px;
+  border-radius: 5px;
+}
+
+.event-list {
+  background-color: #f2f2f2;
+  border-radius: 10px;
+  padding: 20px;
+  width: 300px;
+  border: 2px solid rgb(0, 170, 255);
+  margin-bottom: 5px;
+}
+
+.event-list ul {
+  list-style: none;
+  padding: 0;
+  
+}
+
+.event-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.create-btn {
+  padding: 10px 20px;
+  background-color: #358deb;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.create-btn:hover {
+  background-color: #105179 !important;
+}
+
+.selected {
+  background-color: #358deb !important;
+  color: #fff !important;
+}
+
+.event-marked {
+  background-color: #fcbc00 !important;
+  color: #fff !important;
+}
+
+@media(max-width:500px){
+.app{
+  width: 230px;
+}
+
+.container{
+  width: 250px;
+}
+.calendar-container{
+  width: 230px;
+  padding: 3px;
+}
+.calender{
+  width: 230px;
+  padding: 3px;
+}
+.event-container{
+  width: 230px;
+  margin: auto;
+}
+.event-form{
+  width: 230px;
+  padding: 3px;
+  margin-top: 5px;
+}
+.event-list{
+  width: 230px;
+  padding: 3px;
+}
+.create-btn{
+  margin-top: 3px !important;
+}
+
+}

@@ -49,3 +49,4 @@ router.post('/washerman/wing/fetchRecord', washerman.wingRecord);
 router.post('/washerman/upcomingDate', washerman.upcomingDate);
 
 export default router;
+

@@ -1,0 +1,109 @@
+.top {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.user-profile-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around;
+  background-color: #f2f2f2;
+  padding: 20px;
+  border-radius: 10px;
+  width: 500px;
+  margin: auto;
+  border-bottom: 3.5px solid rgba(0, 145, 255, 0.934);
+  margin-bottom: 5px;
+}
+
+.profile-pic img {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #fff;
+  transition: transform 0.3s ease, box-shadow 0.5s ease;
+}
+
+.user-details {
+  color: #333;
+  background-color: antiquewhite;
+  width: 150px;
+  height: 170px;
+  margin: auto;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  padding-left: 50px;
+  padding-top: 30px;
+  transition: transform 0.3s ease, box-shadow 0.5s ease;
+}
+
+@media (max-width: 500px) {
+  .user-profile-container {
+      align-items: center;
+      flex-wrap: wrap;
+      width: 200px;
+      height: 400px;
+      padding-bottom: 30px;
+  }
+
+  .profile-pic img {
+      margin-bottom: 10px;
+  }
+}
+
+.profile-pic img:hover,
+.user-details:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 15px rgba(0, 166, 255, 0.7);
+}
+
+.back-button-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center; /* Align items vertically */
+  padding: 20px;
+  margin: auto;
+  width: 490px; /* Set width to match user-profile-container */
+  border-bottom: 3px solid rgb(37, 133, 237);
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.back-button-container button {
+  background-color: transparent;
+  color: #333;
+  border: none;
+  cursor: pointer;
+  flex: 1; 
+  border: 2px solid rgba(0, 145, 255, 0.934);
+}
+
+.back-button-container button:hover {
+  text-decoration: underline;
+}
+
+.hall,
+.wing {
+  font-size: large;
+  flex: 1; 
+  text-align: center; 
+  margin-left: 3px;
+  border: 2px solid rgba(0, 145, 255, 0.934);
+  height: 37px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center; 
+  justify-content: center; 
+}
+
+@media(max-width:500px){
+.back-button-container{
+  align-items: center;
+    flex-wrap: wrap;
+    width: 190px;    
+}
+
+}
