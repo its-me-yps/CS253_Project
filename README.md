@@ -6,6 +6,13 @@ This project is a web application that consists of both frontend and backend com
 * Backend - Express.js
 * Database - MongoDB
 
+#### https://cs-253-project.vercel.app/
+Frontend URL
+#### https://backend-ssnn.onrender.com/
+Backend URL
+
+Frontend and Backend are integrated.
+
 ## Frontend
 
 To run the frontend locally, navigate to the `frontend` directory:
@@ -23,12 +30,13 @@ To run the backend locally, navigate to the backend directory:
 ```bash
 cd backend
 npm i # Install dependencies
-npm start # Start the development server   
-Additionally, you need to create a .env file in the backend directory and paste the environment variables in the following format:
+nodmon app.js # Start the development server   
 ```
+Additionally, you need to create a .env file in the backend directory and paste the environment variables in the format mentioned in **envformat** in root of backend directory.
 ## Deployment
 
-This project is deployed on Vercel, a cloud platform for hosting static websites and serverless functions
+Backend of this project is deployed on render.
+Frontend of this project is deployed on vercel.
 
 
 ## Dependencies
