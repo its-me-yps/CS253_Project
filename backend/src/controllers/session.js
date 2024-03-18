@@ -78,7 +78,7 @@ const washermanLogin = async (req, res) => {
             res.cookie('token', token, { httpOnly: true });
 
             // Initialize WebSocket connection
-            const ws = new WebSocket('ws://localhost:3000');
+            const ws = new WebSocket(process.env.WS_URL);
 
             ws.onopen = () => {
                 // Save WebSocket connection in Washerman document

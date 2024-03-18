@@ -13,17 +13,17 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cookieParser());
 
+// Loading env variables
+dotenv.config();
+
 const corsOptions = {
-    origin: 'http://localhost:3000',
+    origin: process.env.FRONTEND_URL,
     credentials: true,
 };
 app.use(cors(corsOptions));
 
 // Use Morgan for HTTP request logging
 app.use(morgan('dev'));
-
-// Loading env variables
-dotenv.config();
 
 console.log("DBMS Backend Service");
 // Server Port
@@ -42,5 +42,7 @@ connectDB().then(() => {
 
 nodemon({
     ext: 'js',
-    ignore: ['node_modules/**'] // Ignore changes in the node_modules directory
+    ignore: ['node_modules/'] // Ignore changes in the node_modules directory
 });
+
+module.exports = app;
