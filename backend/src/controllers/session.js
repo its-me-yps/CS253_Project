@@ -45,7 +45,8 @@ const studentLogin = async (req, res) => {
                     name: user.washerman.name,
                     upcomingDate: user.washerman.upcomingDate,
                     contact: user.washerman.contact
-                }
+                },
+                lastCleared: user.lastCleared
             }), { httpOnly: true });
 
             res.status(200).json({ message: 'student logged in successfully' });
@@ -64,10 +65,10 @@ const washermanLogin = async (req, res) => {
     try {
         let user;
 
-        user = await Washerman.findOne({ contact:contact }).populate('Wing');
+        user = await Washerman.findOne({ contact }).populate('Wing');
 
         if (!user) {
-            return res.status(401).json({ message: 'washerman not found' });
+            return res.status(401).json({ message: 'Washerman not found' });
         }
 
         const hashedpass = sha256(pass);
@@ -76,18 +77,29 @@ const washermanLogin = async (req, res) => {
             const token = jwt.sign({ contact }, process.env.JWT_SECRET, { expiresIn: '12h' });
             res.cookie('token', token, { httpOnly: true });
 
+            // Initialize WebSocket connection
+            const ws = new WebSocket('ws://localhost:3000');
+
+            ws.onopen = () => {
+                // Save WebSocket connection in Washerman document
+                user.wsConn = ws;
+                user.save();
+            };
+
+            // Set cookie with user info
             res.cookie('info', JSON.stringify({
                 contact,
                 name: user.name,
-                halls: user.halls,
+
+                halls: user.halls
             }), { httpOnly: true });
 
-            res.status(200).json({ message: 'washerman logged in successfully' });
+            res.status(200).json({ message: 'Washerman logged in successfully' });
         } else {
             res.status(401).json({ message: 'Invalid credentials' });
         }
     } catch (error) {
-        console.error('Error logging in user:', error);
+        console.error('Error logging in washerman:', error);
         res.status(500).json({ message: 'Internal server error' });
     }
 };
@@ -98,10 +110,30 @@ const logout = (req, res) => {
     res.status(200).json({ message: 'Logged out successfully' });
 };
 
+const washermanLogout = async (req, res) => {
+    try {
+        const user = await Washerman.findOne({ contact: req.user.contact });
+
+        res.clearCookie('token');
+        res.clearCookie('info');
+
+        if (user.wsConn) {
+            user.wsConn.close();
+            user.wsConn = null;
+            await user.save(); 
+        }
+
+        res.status(200).json({ message: 'Logged out successfully' });
+    } catch (error) {
+        console.error('Error logging out washerman:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
 function sha256(data) {
     return crypto.createHash('sha256').update(data).digest('hex');
 }
 
-const session = { adminLogin, studentLogin, washermanLogin, logout };
+const session = { adminLogin, studentLogin, washermanLogin, logout, washermanLogout };
 
 export default session;

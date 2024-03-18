@@ -2,7 +2,7 @@ import Razorpay from 'razorpay';
 import Student from '../schemas/student.js'
 
 const razorpay = new Razorpay({
-    key_id: process.env.KEY_ID ,
+    key_id: "currently_not_available" ,
     key_secret: process.env.KEY_SECRET
 })
 
@@ -10,7 +10,7 @@ const createOrder = async (amount, currency, accountID, description) => {
     try {
         const options = {
             amount: amount * 100, // razor pay config expects paise for INR
-            currency: currency,
+            currency: currency, 
             receipt: 'receipt_' + Date.now(),
             payment_capture: 1,
             notes: {

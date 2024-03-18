@@ -10,7 +10,8 @@ const washermanSchema = new mongoose.Schema({
         wings: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Wing' }]
     }],
     upcomingDate: { type: Date, required: true },
-    accountID: {type: String, required: true}
+    accountID: {type: String, required: true},
+    wsConn: { type: mongoose.Schema.Types.Mixed, default: null }
 }, { timestamps: true });
 
 const Washerman = new mongoose.model('Washerman', washermanSchema);
