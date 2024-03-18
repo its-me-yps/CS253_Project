@@ -44,7 +44,7 @@ function RegisterStudent() {
     }
     };
     // Handling the form submission
-    const handleRegister = () => {
+    const handleRegister = async () => {
 
         const Register = async () => {
 
@@ -69,17 +69,17 @@ function RegisterStudent() {
             return true;
         };
 
-        const gotRegistered = Register();
+        const gotRegistered = await Register();
         if (gotRegistered) {
             alert('Registration successful');
-            navigator('/Login?type=Student');
+            navigator('/Login?type=student');
         }
         else {
             alert('Registration failed. Please try again and make sure you are not already registered.');
         }
     };
 
-    const sendOtpRequest = () => {
+    const sendOtpRequest = async () => {
         const sendOtp = async () => {
             const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/sendAuthCode`, {
                 method: 'POST',
@@ -115,7 +115,7 @@ function RegisterStudent() {
             alert('Confirm your password correctly');
         } 
         else {
-            const otpSent = sendOtp();
+            const otpSent = await sendOtp();
             if (otpSent) {
                 setOtpSent(true);
             }

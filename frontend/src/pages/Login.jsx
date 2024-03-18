@@ -18,15 +18,19 @@
 
         //api calling function
         const verifyUser = async () => {
+            let body;
+            if(userType === 'student') {
+                body = {roll: username, pass: password};
+            }
+            else {
+                body = {contact: username, pass: password};
+            }
             const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/session/${userType}/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    username: username,
-                    password: password
-                })
+                body: JSON.stringify(body)
             });
     
             const resJson = await response.json();
@@ -47,11 +51,11 @@
             setPassword(event.target.value);
         }
 
-        const handleLogin = () => {
+        const handleLogin = async() => {
             if (username === "" || password === "")
                 alert("Please enter all the fields");
             else{
-                const isValidUser = verifyUser();
+                const isValidUser = await verifyUser();
                 if (isValidUser) {
                     if(userType === "student" && isValidUser){
                         navigator('/StudentDashboard');
