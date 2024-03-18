@@ -9,7 +9,7 @@ const receiptSchema = new mongoose.Schema({
 });
 
 const studentSchema = new mongoose.Schema({
-    roll: { type: Number, required: true, unique: true },
+    roll: { type: String, required: true, unique: true },
     name: { type: String, required: true },
     // IITK webmail
     email: { type: String, required: true, unique: true },
@@ -17,7 +17,7 @@ const studentSchema = new mongoose.Schema({
     wing: { type: String, required: true },
     // SHA256 of Password
     passHash: { type: String, required: true },
-    washerman: { type: mongoose.Schema.Types.ObjectId, ref: 'Washerman' },
+    washerman: { type: mongoose.Schema.Types.ObjectId, ref: 'Washerman', required: true },
     records: [{
         date: { type: Date, required: true },
         // Array of pair(type of cloth and number of units) in clothes
