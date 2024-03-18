@@ -14,16 +14,16 @@
   cursor: pointer;
 }
 .dropdown{
-  margin-right: 10px;
-  width: 260px;
-  height: 37px;
+  width: 250px;
+  height: 35px;
   padding: 5px;
+  font-size: 13px;
   border: 1px solid #ccc;
   border-radius: 7px;
 }
 .dropdown-container{
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   border-radius: 5px;
   box-sizing: border-box;
   margin-bottom: 10px;

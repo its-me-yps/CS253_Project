@@ -27,10 +27,9 @@ router.post('/admin/addHallData', admin.addHallData);
 
 // Student Routes
 router.post('/student/fetchRecords', student.fetchRecord);
+router.post('/student/fetchDates', student.fetchDates);
 router.post('/student/clearDue', student.clearDue);
 // For payment verification from RazorPay
 router.post('/verifyPayment', pay.verifyPayment);
 
 // Washerman routes
-
-export default router;

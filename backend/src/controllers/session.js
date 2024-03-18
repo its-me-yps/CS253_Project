@@ -64,7 +64,7 @@ const washermanLogin = async (req, res) => {
     try {
         let user;
 
-        user = await Washerman.findOne({ contact:contact });
+        user = await Washerman.findOne({ contact:contact }).populate('Wing');
 
         if (!user) {
             return res.status(401).json({ message: 'washerman not found' });
@@ -79,6 +79,7 @@ const washermanLogin = async (req, res) => {
             res.cookie('info', JSON.stringify({
                 contact,
                 name: user.name,
+                halls: user.halls,
             }), { httpOnly: true });
 
             res.status(200).json({ message: 'washerman logged in successfully' });

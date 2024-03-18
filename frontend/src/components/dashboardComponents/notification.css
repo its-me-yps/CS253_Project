@@ -1,0 +1,33 @@
+.notification-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f2f2f2;
+    padding: 20px;
+    border-radius: 10px;
+    width: 500px;
+    margin: auto;
+    border-bottom: 3.5px solid rgba(0, 145, 255, 0.934);
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+.notification-button {
+    padding: 10px 10px;
+    background-color: #ff3d00;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    
+}
+
+.notification-button:hover {
+    background-color: #ff6e40;
+}
+
+@media(max-width:500px){
+    .notification-container{
+        width: 200px;
+    }
+}

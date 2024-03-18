@@ -6,8 +6,6 @@
 
 
     function Login() {
-
-        
         const location = useLocation();
         const searchParams = new URLSearchParams(location.search);
         const userType = searchParams.get("type");
@@ -16,11 +14,11 @@
 
         const [username, setUsername] = useState("");
         const [password, setPassword] = useState("");
-        const [cookies, setCookie] = useCookies(['info']);
+        const [cookies, setCookies] = useCookies(['info']);
 
         //api calling function
         const verifyUser = async () => {
-            const response = await fetch(`http://localhost:5000/${userType}/login`, {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/session/${userType}/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -35,7 +33,7 @@
     
             if (response.ok) {
                 const info = resJson.info;
-                setCookie('info', info, { path: '/' }); // Set the 'info' cookie
+                setCookies('info', info, { path: '/' }); // Set the 'info' cookie
                 return true;
             }
             return false;
@@ -55,42 +53,51 @@
             else{
                 const isValidUser = verifyUser();
                 if (isValidUser) {
-                    if(userType === "Student"){
+                    if(userType === "student" && isValidUser){
                         navigator('/StudentDashboard');
                     }
                     else{
-                        navigator('/WashermanDashboard');
+                        navigator('/WashermanSelection');
                     }
                 }
                 else{
                     alert("Invalid Credentials");
+
                 }
             }
         }
 
         return (
-            <div className="super-box">
+            <div className="flex items-center justify-center h-screen p-10 max-w-xl mx-auto" style={{ backgroundColor: '#8CB9BD' }}>
                 <div className="form">
                     <div className='ArrowContainer_washer' ><Link to="/"><FaArrowLeft className='arrow_washer' /></Link></div>
                     <h1>Login</h1>
-                    <div className="input-container">
-                        <label>Username:</label>
-                        <input type="text" placeholder="Roll no/mobile no" onChange={handleUsernameChange} />
-                    </div>
+                    {userType === "student" ?
+                        <div className="input-container">
+                            <label > Roll No:</label>
+                            <input type="text" placeholder="Roll no" onChange={handleUsernameChange} />
+                        </div>
+                        :
+                        <div className="input-container">
+                            <label>Mobile no.:</label>
+                            <input type="text" placeholder="mobile no." onChange={handleUsernameChange} />
+                        </div>
+                    }
+
                     <div className="input-container">
                         <label>Password:</label>
                         <input type="password" placeholder="password" onChange={handlePasswordChange} />
                     </div>
-                    <div className="button-container">
+                    <div className="button-container p-3">
                             <button className="button-Type1" onClick={handleLogin}>Login</button>
                     </div>
-                    {userType === "Student" &&
-                        <div className="form-footer">
-                            <p>Forgot Password?
-                                <Link to="/resetPassword"> Create New Password</Link>
+                    {userType === "student" &&
+                        <div className="form-footer ">
+                            <p className="text-xs"> Forgot Password?
+                                <Link to="/resetPassword" className="text-blue-800"> Create New Password</Link>
                             </p>
-                            <p>Don't have an account?
-                                <Link to="/RegisterStudent"> Register Here</Link>
+                            <p className="text-xs">Don't have an account?
+                                <Link to="/RegisterStudent" className="text-blue-800"> Register Here</Link>
                             </p>
                         </div>
                     }

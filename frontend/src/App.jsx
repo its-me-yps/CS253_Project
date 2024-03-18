@@ -10,8 +10,8 @@ import WashermanSelection from './pages/WashermanSelection';
 import RegisterStudent from './pages/RegisterStudent';
 import ResetPassword from './pages/ResetPassword';
 import StudentDashboard from './pages/StudentDashboard';
-import WashermanDashboard from './pages/WashermanDashborad';
-
+import WashermanDashboard from './pages/WashermanDashboard';
+import WashClothes from './pages/WashClothes';
 
 const router = createBrowserRouter([
     {
@@ -24,24 +24,28 @@ const router = createBrowserRouter([
         element: <Login />,
     },
     {
-        path: '/WashermanSelection',
-        element: <WashermanSelection />,
-    },
-    {
-        path: '/StudentDashboard',
-        element: <StudentDashboard/>,
-    },
-    {
-        path: '/WashermanDashboard',
-        element: <WashermanDashboard/>,
-    },
-    {
         path: '/ResetPassword',
         element: <ResetPassword />,
     },
     {
         path: '/RegisterStudent',
         element: <RegisterStudent />,
+    },
+    {
+        path: '/WashermanSelection',
+        element: <WashermanSelection />,
+    },
+    {
+        path: '/StudentDashboard',
+        element: <StudentDashboard />,
+    },
+    {
+        path: '/WashClothes',
+        element: <WashClothes />,
+    },
+    {
+        path: '/WashermanDashboard',
+        element: <WashermanDashboard />,
     },
     {
         path: '*',
@@ -51,7 +55,7 @@ const router = createBrowserRouter([
 
 const App = () =>{
     return (
-        <RouterProvider router={router} />
+        <RouterProvider  router={router} />
     );
 }
 

@@ -1,0 +1,96 @@
+.top{
+    display: flex;
+    flex-direction: column;
+}
+.user-profile-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content:space-around;
+    background-color: #f2f2f2;
+    padding: 20px;
+    border-radius: 10px;
+    height :200px;
+    width :500px;
+    /* margin: 100px; */
+    margin: auto ;
+    border-bottom: 5px solid rgb(0, 170, 255);
+}
+
+.profile-pic img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%; /* Applying border-radius to create a circular image */
+    object-fit: cover;
+    border: 2px solid  #fff; 
+    transition: transform 0.3s ease, box-shadow 0.5s ease;
+}
+  
+  
+.user-details {
+    /* flex-grow: 1; */
+    color: #333;
+    background-color: antiquewhite;
+    width: 150px;
+    height: 170px;
+    margin: auto ;
+    border: 2px solid  #fff; 
+    border-radius: 50%;
+    padding-left: 50px;
+    padding-top: 30px;
+    transition: transform 0.3s ease, box-shadow 0.5s ease;
+   
+}
+  
+/* button {
+    padding: 10px 20px;
+    background-color: #358deb;
+    color: #fdf6f6;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+} */
+  
+  /* Responsive Styles */
+@media (max-width: 500px) {
+    .user-profile-container {
+      /* flex-direction: column; */
+      align-items: center;
+      flex-wrap:wrap;
+      width:200px;
+      height:400px;
+      padding-bottom: 30px;
+}
+    
+.profile-pic img {
+      margin-bottom: 10px;
+    }
+}
+  
+
+.profile-pic img:hover, .user-details:hover{
+    transform: scale(1.02); 
+    box-shadow: 0 0 15px rgba(0, 166, 255, 0.7); 
+}
+.back-button-container {
+    display: flex;
+    justify-content: flex-start;
+    padding: 20px;
+    margin: auto; 
+  }
+  
+  .back-button-container button {
+    background-color: transparent;
+    color: #333;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .back-button-container button:hover {
+    text-decoration: underline;
+  }
+
+  
+  
+  
+  
