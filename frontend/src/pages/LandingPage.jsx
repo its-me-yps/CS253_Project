@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 function LandingPage() {
     return (
-        <div className="flex items-center justify-center h-screen p-10 max-w-xl mx-auto" style={{ backgroundColor: '#8CB9BD' }}>
+        <div className="flex items-center justify-center h-screen p-10 max-w-xl mx-auto" style={{ backgroundImage: 'linear-gradient(to bottom, #b1dfdfef, hsl(0, 35%, 85%))' }}>
             <div  className="form pt-0">
                 <img src={'DBMS_LOGO.png'} alt="Logo" className="logo" />
                 <div className="text-center p-2 italic">
