@@ -126,7 +126,7 @@ function RegisterStudent() {
     }
 
     return (
-        <div className="flex items-center justify-center h-screen p-10 max-w-xl mx-auto" style={{ backgroundColor: '#8CB9BD' }} >
+        <div className="flex items-center justify-center h-screen p-10 max-w-xl mx-auto" style={{ backgroundImage: 'linear-gradient(to bottom, #b1dfdfef, hsl(0, 35%, 85%))' }} >
             <div className="form pt-8 pb-8 ">
                 <h1>Register</h1>
                 <br />
