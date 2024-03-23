@@ -1,6 +1,6 @@
 body {
   font-family: 'Arial', sans-serif;
-  style={{ backgroundImage: 'linear-gradient(to bottom, #b1dfdfef, hsl(0, 35%, 85%))' }}
+    background-image: linear-gradient(to bottom, #b1dfdfef, hsl(0, 35%, 85%));
   background-size: cover;
   margin: 0;
 }
