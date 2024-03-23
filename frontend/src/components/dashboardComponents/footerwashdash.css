@@ -10,15 +10,23 @@
     border-bottom: 3.5px solid rgba(0, 145, 255, 0.934);
     margin-top: 10px;
 }
-.print-button ,.cloths-button {
+.print-button{
     padding: 10px ;
     color: #fff ;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     margin-left: 20px !important;
-    margin-right: 20px !important;
-    
+    margin-right: 20px !important; 
+}
+.cloths-button {
+    padding: 10px ;
+    color: #fff ;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 20px !important;
+    margin-right: 20px !important; 
 }
 
 .print-button:hover ,.cloths-button:hover {
