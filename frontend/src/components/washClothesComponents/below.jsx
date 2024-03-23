@@ -62,7 +62,7 @@ const Below = ({ counter }) => {
                 </div>
             </div>
             <button
-        className="w-screen flex flex-col items-center justify-center p- bg-blue-500 text-white px-4 py-2 mt-4 rounded-full focus:outline-none focus:ring focus:border-blue-300"
+        className="max-w-screen flex flex-col items-center justify-center p- bg-blue-500 text-white px-4 py-2 mt-4 rounded-full focus:outline-none focus:ring focus:border-blue-300"
         onClick={handleWashCLothes}
       >
         WASH
