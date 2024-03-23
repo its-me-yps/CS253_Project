@@ -116,7 +116,7 @@ function ResetPassword() {
 
 
     return (
-        <div className="flex items-center justify-center h-screen p-10 max-w-xl mx-auto" style={{ backgroundColor: '#8CB9BD' }}>
+        <div className="flex items-center justify-center h-screen p-10 max-w-xl mx-auto" style={{ backgroundImage: 'linear-gradient(to bottom, #b1dfdfef, hsl(0, 35%, 85%))' }}>
             <div className="form pl-12">
                 <div className='ArrowContainer_washer' ><Link to={'/Login?type=student'}><FaArrowLeft className='arrow_washer' /></Link></div>
 
