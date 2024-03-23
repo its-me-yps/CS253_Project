@@ -72,7 +72,7 @@
         }
 
         return (
-            <div className="flex items-center justify-center h-screen p-10 max-w-xl mx-auto" style={{ backgroundColor: '#8CB9BD' }}>
+            <div className="flex items-center justify-center h-screen p-10 max-w-xl mx-auto" style={{ backgroundImage: 'linear-gradient(to bottom, #b1dfdfef, hsl(0, 35%, 85%))' }}>
                 <div className="form">
                     <div className='ArrowContainer_washer' ><Link to="/"><FaArrowLeft className='arrow_washer' /></Link></div>
                     <h1>Login</h1>
