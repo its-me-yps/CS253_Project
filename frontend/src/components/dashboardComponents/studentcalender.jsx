@@ -15,7 +15,11 @@ const  StudentCalendar= () => {
   
     const fetchDatesFromDatabase = async () => {
         // Fetch dates from the database
-        const response = await fetch('http://localhost:5000/fetchDates');
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/student/fetchDates`, {
+            method: 'GET',
+            credentials: 'include'
+        }
+        );
         if (response.ok) {
           const dates = await response.json();
           setHighlightedDates(dates); // Set the dates retrieved from the database
@@ -32,8 +36,9 @@ const  StudentCalendar= () => {
   
     const fetchClothesForDate = async (date) => {
         // Fetch events for the selected date
-        const response = await fetch('http://localhost:5000/fetchClothes', {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/student/fetchClothes`, {
           method: 'POST',
+          credentials: 'include',
           headers: {
             'Content-Type': 'application/json',
           },
