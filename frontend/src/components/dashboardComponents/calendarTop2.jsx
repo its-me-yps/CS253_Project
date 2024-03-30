@@ -1,16 +1,20 @@
-import Button from '@mui/material/Button'; 
+import Button from '@mui/material/Button';
 import "./calendarTop.css";
 
 const CalendarTop2 = ({ user, onLogout }) => {
-const handleGoBack = () => {
+  const handleGoBack = () => {
     console.log("Go back clicked");
-};
+  };
 
   return (
     <div className='top'>
       <div className="flex flex-row">
-        <div className="border rounded-full ">
-          <img src="/karl-magnuson-85J99sGggnw-unsplash.jpeg" alt="User Profile" />
+        <div 
+          className="border rounded-full user-profile" 
+          style={{
+            backgroundImage: `url('https://oa.cc.iitk.ac.in/Oa/Jsp/Photo/${user?.roll}_0.jpg')`,
+          }}
+        >
         </div>
         <div className="pl-2">
           <p><strong>Name:</strong> {user.name}</p>
