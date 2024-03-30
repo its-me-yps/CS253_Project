@@ -2,28 +2,18 @@ import CalendarApp from "../components/dashboardComponents/calendarApp";
 import CalendarTop from "../components/dashboardComponents/calendarTop";
 import Notification from "../components/dashboardComponents/notification";
 import Footer from "../components/dashboardComponents/footerwashdash";
-
 import { useNavigate } from "react-router-dom";
-import { useCookies } from "react-cookie";
-
+import Cookies from "js-cookie";
 
 function WashermanDashboard() {
     const navigate = useNavigate();
-    let user = {
-        profilepic: "",
-        name: "Abhishek Kumar",
-        contact: "9142781173"
-    };
 
-
-    // const [cookies, setCookie, removeCookie] = useCookies(['user']);
-    // const user = cookies.user;
-
-
+    const infoCookie = Cookies.get('info');
+    const user = infoCookie ? JSON.parse(decodeURIComponent(infoCookie)) : null;
 
     function onLogout() {
-        // end session from backend
-        const response = fetch(`${process.env.REACT_APP_BACKEND_URL}/session/logout`, {
+        Cookies.remove('info');
+        const response = fetch(`${process.env.REACT_APP_BACKEND_URL}/session/washerman/logout`, {
             method: "GET",
             credentials: "include",
         });

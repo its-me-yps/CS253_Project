@@ -1,28 +1,18 @@
 import React from "react";
-import { useCookies } from "react-cookie";
-
+import Cookies from "js-cookie";
 import CalendarTop2 from "../components/dashboardComponents/calendarTop2";
 import StudentCalendar from "../components/dashboardComponents/studentcalender";
 import Footerstudent from "../components/dashboardComponents/footerstudentdash";
-
 import { useNavigate } from 'react-router-dom';
 
 function StudentDashboard(){
-
-    // const [cookies, setCookie, removeCookie] = useCookies(['user']);
-    // const user = cookies.user;
-
    const navigate = useNavigate();
-
-   const user = {
-       profilepic: "",
-       name: "Abhishek Kumar",
-       email: "abc",
-       
-    };
+   
+   const infoCookie = Cookies.get('info');
+   const user = infoCookie ? JSON.parse(decodeURIComponent(infoCookie)) : null;
 
     function onLogout() {
-        // end session from backend
+        Cookies.remove('info');
         const response = fetch(`${process.env.REACT_APP_BACKEND_URL}/session/logout`, {
             method: "GET",
             credentials: "include",
