@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 
 const wingSchema = new mongoose.Schema({
+    parentHall: {type: String, required: true},
     name: { type: String, required: true },
     students: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Student' }],
     washerman: { type: mongoose.Schema.Types.ObjectId, ref: 'Washerman'}
@@ -8,10 +9,11 @@ const wingSchema = new mongoose.Schema({
 
 const hallSchema = new mongoose.Schema({
     name: { type: String, required: true, unique: true },
-    wings: [wingSchema]
+    wings: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Wing' }]
 });
 
 const Hall = new mongoose.model('Hall', hallSchema);
+const Wing = new mongoose.model('Wing', wingSchema);
 
-const Data = { Hall };
+const Data = { Hall, Wing };
 export default Data;
