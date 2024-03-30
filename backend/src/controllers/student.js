@@ -24,7 +24,7 @@ export const register = async (req, res) => {
             return res.status(400).json({ message: 'Hall does not exist' });
         }
 
-        const wingObject = hallObject.wings.find(w => w.name === wing);
+        const wingObject = await Data.Wing.findOne({ parentHall: hall, name: wing });
         if (!wingObject) {
             return res.status(400).json({ message: 'Wing does not exist in the specified hall' });
         }
@@ -49,7 +49,7 @@ export const register = async (req, res) => {
         await newStudent.save();
 
         wingObject.students.push(newStudent._id);
-        await hallObject.save();
+        await wingObject.save();
 
         res.status(201).json({ message: 'Student registered successfully' });
     } catch (error) {
