@@ -1,7 +1,7 @@
 import '../styles/WashermanSelection.css';
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useCookies } from 'react-cookie';
+import Cookies from "js-cookie";
 
 function WashermanSelection() {
 
@@ -9,17 +9,14 @@ function WashermanSelection() {
     const [selectedHall, setSelectedHall] = useState('');
     const [selectedWing, setSelectedWing] = useState('');
     const [hallsData, setHallsData] = useState([]);
-    const [cookies] = useCookies(['info']);
 
     const navigate = useNavigate();
 
     useEffect(() => {
-        // Extracting halls data from the cookie
-        const info = cookies['info'];
-        if (info && info.halls) {
-            setHallsData(info.halls);
-        }
-    }, [cookies]);
+        const infoCookie = Cookies.get('info');
+        const user = infoCookie ? JSON.parse(decodeURIComponent(infoCookie)) : null;
+        setHallsData(user?.halls || []);
+    }, []);
 
     // Function to handle changes in hall number dropdown
     const handleHallChange = (event) => {
@@ -68,11 +65,9 @@ function WashermanSelection() {
                     </div>
                 }
                 <div className='button-container'>
-                    <Link to="/">
-                        <button className='button-Type1' onClick={handleConfirm}>
-                            Confirm
-                        </button>
-                    </Link>
+                    <button className='button-Type1' onClick={handleConfirm}>
+                        Confirm
+                    </button>
                 </div>
             </div>
         </div>
