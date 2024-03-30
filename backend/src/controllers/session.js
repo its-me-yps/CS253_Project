@@ -79,7 +79,7 @@ const washermanLogin = async (req, res) => {
 
         if (user.passHash === hashedpass) {
             const token = jwt.sign({ contact }, process.env.JWT_SECRET, { expiresIn: '12h' });
-            res.cookie('token', token, { httpOnly: true });
+            res.cookie('token', token, cookieOptions);
 
             // Initialize WebSocket connection
             const ws = new WebSocket(process.env.WS_URL);

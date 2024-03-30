@@ -21,8 +21,8 @@ const  StudentCalendar= () => {
         }
         );
         if (response.ok) {
-          const dates = await response.json();
-          setHighlightedDates(dates); // Set the dates retrieved from the database
+          const resJson = await response.json();
+          setHighlightedDates(resJson.dates); // Set the dates retrieved from the database
         } else {
           console.error("Failed to fetch dates");
         }
