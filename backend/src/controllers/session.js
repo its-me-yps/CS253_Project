@@ -2,6 +2,7 @@ import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
 import Student from '../schemas/student.js';
 import Washerman from '../schemas/washerman.js';
+import WebSocket from 'ws';
 
 const adminLogin = async (req, res) => {
     const { username, password } = req.body;
@@ -65,7 +66,10 @@ const washermanLogin = async (req, res) => {
     try {
         let user;
 
-        user = await Washerman.findOne({ contact }).populate('Wing');
+        user = await Washerman.findOne({ contact }).populate({
+            path: 'halls',
+            populate: { path: 'wings' }
+        });
 
         if (!user) {
             return res.status(401).json({ message: 'Washerman not found' });
@@ -146,6 +150,10 @@ const cookieOptions = {
 // For local testing
 //   const cookieOptions = {
 //     httpOnly: true,
+//     secure: false,
+//     sameSite: 'strict',
+//     path: '/',
+//     domain: 'localhost'
 //   };
 
 const session = { adminLogin, studentLogin, washermanLogin, logout, washermanLogout };
