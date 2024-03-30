@@ -140,7 +140,6 @@ function sha256(data) {
 
 // Deployment
 const cookieOptions = {
-    httpOnly: false,
     secure: true,
     sameSite: 'None',
     path: '/',
@@ -149,8 +148,6 @@ const cookieOptions = {
 
 // For local testing
 //   const cookieOptions = {
-//     httpOnly: true,
-//     secure: false,
 //     sameSite: 'strict',
 //     path: '/',
 //     domain: 'localhost'
