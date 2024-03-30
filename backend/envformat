@@ -25,3 +25,4 @@ WEBHOOK_SECRET=razorpay_webhook_secret
 FRONTEND_URL=frontend_url  
 WS_URL=websocket_url
 
+DOMAIN=your_backend_domain

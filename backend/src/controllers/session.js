@@ -143,14 +143,14 @@ const cookieOptions = {
     secure: true,
     sameSite: 'None',
     path: '/',
-    domain: 'backend-ssnn.onrender.com'
+    domain: process.env.DOMAIN
   };
 
 // For local testing
 //   const cookieOptions = {
 //     sameSite: 'strict',
 //     path: '/',
-//     domain: 'localhost'
+//     domain: process.env.DOMAIN
 //   };
 
 const session = { adminLogin, studentLogin, washermanLogin, logout, washermanLogout };
