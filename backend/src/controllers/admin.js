@@ -33,23 +33,22 @@ export const registerWasherman = async (req, res) => {
         // Save the new washman to the database
         await newWasherman.save();
 
-        // Update the hall objects with the new washman _id
+        // Update the washerman _id in each wing object and construct hallRefs
         const hallRefs = await Promise.all(halls.map(async hall => {
-            const hallObject = await Data.Hall.findOne({ name: hall.name });
-            if (!hallObject) {
-                throw new Error(`Hall ${hall.name} does not exist`);
-            }
-            const wingRefs = await Promise.all(hall.wings.map(async wingName => {
-                const wingObject = hallObject.wings.find(w => w.name === wingName);
-                if (!wingObject) {
+            const wingIds = await Promise.all(hall.wings.map(async wingName => {
+                const wing = await Data.Wing.findOne({ parentHall: hall.name, name: wingName });
+                if (!wing) {
                     throw new Error(`Wing ${wingName} does not exist in the hall ${hall.name}`);
                 }
-                // Add washman id to wingObject
-                wingObject.washerman = newWasherman._id;
-                return wingObject.save(); // Save the wing object
+                // Update the washerman field of the wing with the new washman _id
+                wing.washerman = newWasherman._id;
+                await wing.save();
+                return wing._id; // Return the ObjectId of the wing
             }));
-            await hallObject.save();
-            return { name: hall.name, wings: wingRefs };
+            return {
+                name: hall.name,
+                wings: wingIds
+            };
         }));
 
         // Update the newWasherman object with hall references
@@ -67,26 +66,33 @@ export const registerWasherman = async (req, res) => {
 const addHallData = async (req, res) => {
     const { Halls } = req.body;
 
-    if(!Halls) {
-        res.status(500).json({message: 'Bad Request (Wrong/Missing Keys in json)'});
+    if (!Halls) {
+        res.status(500).json({ message: 'Bad Request (Wrong/Missing Keys in json)' });
         return;
     }
 
     try {
         for (const hallData of Halls) {
-            const { name, wings } = hallData;
+            const { hallName, wings } = hallData;
 
-            const existingHall = await Data.Hall.findOne({ name });
+            const existingHall = await Data.Hall.findOne({ name: hallName });
             if (existingHall) {
-                console.log(`Hall ${name} already exists`);
+                console.log(`Hall ${hallName} already exists`);
                 continue;
-            }  
-            const newHall = new Data.Hall({
-                name,
-                wings: wings.map(wingName => ({ name: wingName, washerman: null }))
-            });
+            }
+
+            // Create new wing objects
+            const wingObjects = [];
+            for (const wingName of wings) {
+                const newWing = new Data.Wing({ parentHall: hallName, name: wingName, washerman: null });
+                await newWing.save();
+                wingObjects.push(newWing._id);
+            }
+
+            // Create new hall object with references to wings
+            const newHall = new Data.Hall({ name: hallName, wings: wingObjects });
             await newHall.save();
-            console.log(`Hall ${name} added successfully`);
+            console.log(`Hall ${hallName} added successfully`);
         }
         res.status(201).json({ message: 'Halls added successfully' });
     } catch (error) {
