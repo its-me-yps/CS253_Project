@@ -10,7 +10,7 @@ const handleGoBack = () => {
   return (
     <div className='top'>
       <div className="p-4">
-        <Button variant="contained" disabled startIcon={<ArrowBackIcon />} onClick={handleGoBack}>Back</Button>
+        <Button variant="contained" disabled startIcon={<ArrowBackIcon />} onClick={handleGoBack} >Back</Button>
        
       </div>
       <div className="user-profile-container">
@@ -21,8 +21,8 @@ const handleGoBack = () => {
           <p><strong>Name:</strong> {user.name}</p>
           {user.email && <p><strong>email :</strong> {user.email}</p>}
           {user.contact && <p><strong>mobile no :</strong> {user.contact}</p>}
-          <p><strong>hall:</strong> {hall}</p>
-          <p><strong>wing:</strong> {wing}</p>
+          <p><strong>Hall:</strong> {hall}</p>
+          <p><strong>Wing:</strong> {wing}</p>
           <Button variant="contained" onClick={onLogout}>Logout</Button>
         </div>
       </div>
