@@ -10,7 +10,7 @@ const handleGoBack = () => {
   return (
     <div className='top'>
       <div className="p-4">
-        <Button variant="contained" startIcon={<ArrowBackIcon />} onClick={handleGoBack}>Back</Button>
+        <Button variant="contained" disabled startIcon={<ArrowBackIcon />} onClick={handleGoBack}>Back</Button>
        
       </div>
       <div className="user-profile-container">
