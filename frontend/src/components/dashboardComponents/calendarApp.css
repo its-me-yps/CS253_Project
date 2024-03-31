@@ -15,10 +15,16 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  width: 100%;
+  width: 25rem !important;
   border-bottom: 0.2px solid black;
   border-radius: 10px;
-  background-color: antiquewhite;
+  background-color:#f8f0f041;
+  margin: auto;
+  margin-bottom: 10px;
+  border-bottom: 3px solid  rgb(0, 170, 255);
+  border-top: 1.5px solid  rgb(0, 170, 255);
+  border-left: 1.5px solid  rgb(0, 170, 255);
+  border-right: 1.5px solid  rgb(0, 170, 255);
 }
 .calendar-container {
   margin: auto;
@@ -48,10 +54,12 @@
   border: 2px solid rgb(0, 170, 255);
 }
 input{
-  height:30px;
-  border: 2px solid rgb(0, 170, 255);
-  margin-right: 10px;
-  border-radius: 5px;
+  height:30px !important;
+  border: 2px solid rgb(0, 170, 255) !important;
+  margin-right: 10px !important;
+  margin-bottom: 10px !important;
+  border-radius: 5px !important;
+  width: 100% !important;
 }
 
 .event-list {
@@ -105,7 +113,7 @@ input{
 }
 
 .container{
-  width: 250px;
+  width: 250px !important;
 }
 .calendar-container{
   width: 230px;
