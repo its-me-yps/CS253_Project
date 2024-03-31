@@ -12,10 +12,10 @@
   background-color: #f2f2f2;
   padding: 20px;
   border-radius: 10px;
-  width: 500px;
+  width: 100%;
   margin: auto;
   border-bottom: 3.5px solid rgba(0, 145, 255, 0.934);
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 
 .profile-pic img {
@@ -44,7 +44,7 @@
   .user-profile-container {
       align-items: center;
       flex-wrap: wrap;
-      width: 200px;
+      width: 240px;
       height: 400px;
       padding-bottom: 30px;
   }
