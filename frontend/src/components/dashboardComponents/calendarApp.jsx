@@ -15,8 +15,8 @@ const CalendarApp = () => {
   const Date_Click_Fun = (date) => {
     setSelectedDate(date);
     if(!eventName){
-    setEventName("visiting");
-  }
+      setEventName("visiting");
+    }
   };
 
   const Create_Event_Fun = () => {
@@ -37,8 +37,7 @@ const CalendarApp = () => {
 
   return (
     <div className="">
-   
-      <div className="">
+      <div className="container">
         <div className="calendar-container">
           <Calendar className="calender"
             value={selectedDate}
@@ -60,8 +59,8 @@ const CalendarApp = () => {
           <div className="event-form">
             <h3>Create Event</h3>
             <p>
-              Selected Date:{" "}
-              {selectedDate ? selectedDate.toDateString() : <b>Please select a date </b>}
+              Selected Date:
+              {selectedDate ? selectedDate.toDateString() : <b>Select a date </b>}
             </p>
             <input
               type="text"
@@ -70,7 +69,7 @@ const CalendarApp = () => {
               className="pb-2"
               onChange={(e) => setEventName(e.target.value)}
             />
-            <Button  variant ="contained"className="create-btn " onClick={Create_Event_Fun}>
+            <Button variant="contained" className="create-btn" onClick={Create_Event_Fun}>
               Add Event
             </Button>
           </div>
@@ -82,7 +81,7 @@ const CalendarApp = () => {
                   <span>
                     {event.date.toDateString()} - {event.title}
                   </span>
-                  <Button  variant="outlined" style={{color:"red", border:"1px solid red"}} startIcon={<DeleteIcon/>} onClick={() => Delete_Event_Fun(event.id)}>
+                  <Button variant="outlined" style={{color:"red", border:"1px solid red"}} startIcon={<DeleteIcon/>} onClick={() => Delete_Event_Fun(event.id)}>
                     Delete
                   </Button>
                 </li>
