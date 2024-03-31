@@ -33,6 +33,8 @@ function WashermanSelection() {
         if (selectedHall === '' || selectedWing === '') {
             alert('Please select hall and wing');
         } else {
+            Cookies.set('selectedHall' ,selectedHall);
+            Cookies.set('selectedWing',selectedWing);
             navigate('/WashermanDashboard', { state: { hall: selectedHall, wing: selectedWing } });
         }
     };
