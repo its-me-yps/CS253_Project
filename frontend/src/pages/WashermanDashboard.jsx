@@ -19,12 +19,15 @@ function WashermanDashboard() {
         });
         navigate("/");
     }
+    const selectedHall=Cookies.get('selectedHall');
+    const selectedWing =Cookies.get('selectedWing');
 
     return (
         <>
             <div className="flex items-center justify-center flex-column p-10 max-w-xl mx-auto"style={{ backgroundImage: 'linear-gradient(to bottom, #b1dfdfef, hsl(0, 35%, 85%))' }}>
                 <div className="form">
-                    <CalendarTop user={user} onLogout={onLogout} hall={"Hall-12"} wing={"C1"} />
+                    {/* Pass selected hall and wing to CalendarTop component */}
+                    <CalendarTop user={user} onLogout={onLogout} hall={selectedHall} wing={selectedWing} />
                     <CalendarApp />
                     <Notification />
                     <Footer />
