@@ -1,9 +1,14 @@
   import ClothItem from "../components/washClothesComponents/clothItem";
   import Below from "../components/washClothesComponents/below";
-
+  import Button from '@mui/material/Button';
   import { useState } from "react";
+  import { useNavigate } from 'react-router-dom';
 
 const WashClothes = () => {
+  const navigate = useNavigate();
+  const back=()=>{
+    navigate("/StudentDashboard")
+  }
   const [counter, setCounter] = useState({
     '1': 0,
     '2': 0,
@@ -34,9 +39,9 @@ const WashClothes = () => {
     <div className="bg-pink-100 p-4">
     {/* h-screen flex flex-col items-center */}
     
-      <button className="bg-blue-500 text-white px-4 py-2 mt-4 text-lg  rounded-full justify-start font-extrabold" >
+      <Button variant="contained" onClick={back} className="bg-blue-500 text-white px-4 py-2 mt-4 text-lg  rounded-full justify-start font-extrabold" >
         back
-      </button>
+      </Button>
       <div className="text-2xl font-bold text-blue-500">
 
         Please chose Clothes
