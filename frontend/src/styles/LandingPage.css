@@ -12,7 +12,7 @@ body {
   justify-content: center;
   min-width: 300px;
   /* height: 50vh; */
-  border-radius: 5%;
+  border-radius: 10px;
   border: 1px solid #fff7f1;
   padding: 45px;
   background-color: #fff7f1;
