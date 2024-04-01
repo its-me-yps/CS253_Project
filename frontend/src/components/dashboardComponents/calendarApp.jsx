@@ -67,9 +67,10 @@ const CalendarApp = () => {
               placeholder="Event Name"
               value={eventName}
               className="pb-2"
+              id="input" // Adding id here
               onChange={(e) => setEventName(e.target.value)}
             />
-            <Button variant="contained" className="create-btn" onClick={Create_Event_Fun}>
+            <Button variant="contained" className="create-btn" onClick={Create_Event_Fun} id="11">
               Add Event
             </Button>
           </div>
@@ -81,7 +82,7 @@ const CalendarApp = () => {
                   <span>
                     {event.date.toDateString()} - {event.title}
                   </span>
-                  <Button variant="outlined" style={{color:"red", border:"1px solid red"}} startIcon={<DeleteIcon/>} onClick={() => Delete_Event_Fun(event.id)}>
+                  <Button variant="outlined" style={{color:"red", border:"1px solid red"}} startIcon={<DeleteIcon/>} onClick={() => Delete_Event_Fun(event.id)} id="11">
                     Delete
                   </Button>
                 </li>
