@@ -219,7 +219,7 @@ export const resetPassword = async (req, res) => {
         }
         
         // Verify authentication code
-        const storedAuthCode = await AuthCode.findOne({ $and: [{ roll }, { email }] });
+        const storedAuthCode = await AuthCode.findOne({ $or: [{ roll }, { email }] });
         if (!storedAuthCode || storedAuthCode.authCode !== authCode) {
             return res.status(400).json({ message: 'Invalid authentication code' });
         }
