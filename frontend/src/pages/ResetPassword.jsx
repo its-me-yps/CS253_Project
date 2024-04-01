@@ -45,7 +45,7 @@ function ResetPassword() {
         }
         else {
             const sendOtp = async () => {
-                const response = await fetch('process.env.REACT_APP_BACKEND_URL/sendAuthCode', {
+                const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/sendAuthCode`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -74,7 +74,7 @@ function ResetPassword() {
     const handleReset = () => {
 
         const resetPwd = async () => {
-            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/resetpassword`, {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/student/resetPassword`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -98,15 +98,16 @@ function ResetPassword() {
         else if(formData.newPassword !== formData.confirmPassword){
             alert("Passwords do not match");
         }
-        else if(formData.password.length < 6){
+        else if(formData.newPassword.length < 6){
             alert("Password should be atleast 6 characters long");
         }   
         else {
             const pwdReset = resetPwd();
+            console.log("reset function executed successfully");
             if (pwdReset) {
                 console.log(formData.otp);
                 alert('Password reset successful');
-                navigator('/Login?type=Student');
+                navigator('/login?type=student');
             }
             else {
                 alert('Password reset failed. Please try again.');
