@@ -7,7 +7,7 @@ import WebSocket from 'ws';
 const adminLogin = async (req, res) => {
     const { username, password } = req.body;
     if(!username || !password) {
-        res.status(500).json({message: 'Bad Request (Wrong/Missing Keys in json)'});
+        res.status(400).json({message: 'Bad Request (Wrong/Missing Keys in json)'});
         return;
     }
     if (username === process.env.ADMIN_USERNAME && password === process.env.ADMIN_PASSWORD) {
