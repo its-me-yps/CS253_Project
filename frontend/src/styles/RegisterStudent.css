@@ -6,8 +6,7 @@
   box-sizing: border-box;
   margin-top: 5px;
   color: white;
-  background-image: linear-gradient(to bottom, black, #302b2b);
-  
+  background-image: linear-gradient(to bottom, black, #302b2b); 
 }
 .OTP-button_washer:hover {
   background-image: linear-gradient(to bottom, rgb(51, 48, 48), #645f5f);
@@ -20,6 +19,7 @@
   font-size: 13px;
   border: 1px solid #ccc;
   border-radius: 7px;
+  margin-top: 7px;
 }
 .dropdown-container{
   display: flex;
@@ -101,4 +101,8 @@
   .back-button-container_washer {
     width: 97%;
   }
+  .registerbutton{
+    min-width: 140px;
+  }
+  
 }
