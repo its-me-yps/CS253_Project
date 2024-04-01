@@ -20,11 +20,11 @@ const CalendarTop2 = ({ user, onLogout }) => {
            </div>
         
         <div className="pl-2">
-          <p><strong>Name:</strong> {user.name}</p>
-          {user.email && <p><strong>email :</strong> {user.email}</p>}
-          {user.contact && <p><strong>mobile no :</strong> {user.contact}</p>}
-          <p><strong>hall:</strong> {user.hall}</p>
-          <p><strong>wing:</strong> {user.wing}</p>
+          <p><strong>Name:</strong> {user?.name}</p>
+          {user?.email && <p><strong>email :</strong> {user?.email}</p>}
+          {user?.contact && <p><strong>mobile no :</strong> {user?.contact}</p>}
+          <p><strong>hall:</strong> {user?.hall}</p>
+          <p><strong>wing:</strong> {user?.wing}</p>
           <Button variant="contained" onClick={onLogout}>Logout</Button>
         </div>
         </div>
