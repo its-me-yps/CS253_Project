@@ -42,6 +42,7 @@ const studentLogin = async (req, res) => {
                   name: user.name,
                   hall: user.hall,
                   wing: user.wing,
+                  email:user.email,
                   washerman: {
                       name: user.washerman.name,
                       upcomingDate: user.washerman.upcomingDate,
