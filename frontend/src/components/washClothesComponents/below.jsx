@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import Button from '@mui/material/Button';
 const Below = ({ counter }) => {
 
     const [total, setTotal] = useState(0);
@@ -58,15 +58,15 @@ const Below = ({ counter }) => {
                     Return date:
                 </div>
                 <div className="flex-auto text-2xl font-bold text-blue-500 text-right">
-                    Nahi Pata
+                   Unavailable 
                 </div>
             </div>
-            <button
+            <Button variant='contained' 
         className="max-w-screen flex flex-col items-center justify-center p- bg-blue-500 text-white px-4 py-2 mt-4 rounded-full focus:outline-none focus:ring focus:border-blue-300"
         onClick={handleWashCLothes}
       >
         WASH
-      </button>
+      </Button>
         </>
     );
 };
