@@ -3,6 +3,7 @@ import Student from '../schemas/student.js';
 import AuthCode from '../schemas/auth.js';
 import Data from '../schemas/data.js'
 import pay from '../payment/pay.js';
+import jwt from 'jsonwebtoken';
 
 export const register = async (req, res) => {
     const { roll, name, email, hall, wing, pass, authCode } = req.body;
@@ -10,6 +11,7 @@ export const register = async (req, res) => {
     try {
         const existingStudent = await Student.findOne({ $or: [{ roll }, { email }] });
         if (existingStudent) {
+            
             return res.status(400).json({ message: 'Student with the same ID or email already exists' });
         }
 
@@ -44,7 +46,6 @@ export const register = async (req, res) => {
             // Student's wing was alloted to this washerman by admin
             washerman: wingObject.washerman
         });
-
         // Save the new student to the database
         await newStudent.save();
 
@@ -206,11 +207,44 @@ const paymentDates = async (req, res) => {
         return res.status(500).json({ success: false, message: 'Internal server error' });
     }
 };
+//reset password
+export const resetPassword = async (req, res) => {
+    const { roll, email, newPass,authCode } = req.body;
+
+    try {
+        // Find the student by roll or email
+        const student = await Student.findOne({ $and: [{ roll }, { email }] });
+        if (!student) {
+            return res.status(404).json({ message: 'Student not found' });
+        }
+        
+        // Verify authentication code
+        const storedAuthCode = await AuthCode.findOne({ $and: [{ roll }, { email }] });
+        if (!storedAuthCode || storedAuthCode.authCode !== authCode) {
+            return res.status(400).json({ message: 'Invalid authentication code' });
+        }
+        // Generate a new password hash
+        const passHash = sha256(newPass);
+
+        // Update the student's password hash
+        student.passHash = passHash;
+        await student.save();
+        console.log("done");
+        // Delete the authentication code from the database
+        await AuthCode.deleteOne({ _id: storedAuthCode._id });
+
+        res.status(200).json({ message: 'Password reset successful' });
+    } catch (error) {
+        console.error('Error resetting password:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
 
 function sha256(data) {
     return crypto.createHash('sha256').update(data).digest('hex');
 };
 
-const student = { register, requestWash ,fetchDates, clearDue, fetchRecord, fetchReceipt, paymentDates};
+const student = { register, requestWash ,fetchDates, clearDue, fetchRecord, fetchReceipt, paymentDates,resetPassword};
 
 export default student;
