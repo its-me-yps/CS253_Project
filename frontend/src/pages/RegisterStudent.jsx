@@ -63,6 +63,7 @@ function RegisterStudent() {
                     authCode: formData.otp,
                 }),
             });
+            
             if (!response.ok) {
                 return false;
             }
@@ -242,10 +243,10 @@ function RegisterStudent() {
                             </div>
                         <div className="button-container">
                             <div className="p-1">
-                        <button className='button-Type1'onClick={sendOtpRequest}>Resend OTP</button>
+                        <button className='button-Type1 registerbutton'onClick={sendOtpRequest}>Resend OTP</button>
                         </div>
                         <div className='p-1'>
-                            <button className="button-Type1" onClick={handleRegister}>
+                            <button className="button-Type1  registerbutton" onClick={handleRegister}>
                                 Register
                             </button>
                             </div>
