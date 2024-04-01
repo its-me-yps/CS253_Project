@@ -10,12 +10,15 @@ const CalendarTop2 = ({ user, onLogout }) => {
     <div className='top'>
       <div className="flex flex-row">
         <div 
-          className="border rounded-full user-profile" 
-          style={{
-            backgroundImage: `url('https://oa.cc.iitk.ac.in/Oa/Jsp/Photo/${user?.roll}_0.jpg')`,
-          }}
+          className="user-profile-container" 
+          // style={{
+          //   backgroundImage: `url(https://oa.cc.iitk.ac.in/Oa/Jsp/Photo/${user?.roll}_0.jpg)`,
+          // }}
         >
-        </div>
+           <div className="profile-pic ">
+          <img src={`https://oa.cc.iitk.ac.in/Oa/Jsp/Photo/${user?.roll}_0.jpg`} alt="User Profile" />
+           </div>
+        
         <div className="pl-2">
           <p><strong>Name:</strong> {user.name}</p>
           {user.email && <p><strong>email :</strong> {user.email}</p>}
@@ -23,6 +26,7 @@ const CalendarTop2 = ({ user, onLogout }) => {
           <p><strong>hall:</strong> {user.hall}</p>
           <p><strong>wing:</strong> {user.wing}</p>
           <Button variant="contained" onClick={onLogout}>Logout</Button>
+        </div>
         </div>
       </div>
     </div >
