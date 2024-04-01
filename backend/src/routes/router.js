@@ -25,7 +25,7 @@ router.get('/session/logout', session.logout);
 // Register Routes
 router.post('/sendAuthCode', mailer.sendOTP);
 router.post('/student/register', student.register);
-
+router.post('/student/resetPassword',student.resetPassword);
 // Authentication Midddleware to access other routes
 router.use(jwtAuth);
 
@@ -35,7 +35,7 @@ router.post('/admin/addHallData', admin.addHallData);
 
 // Student Routes
 // requestWash is done through web socket conn and response is received through event listener
-router.post('/student/resetPassword',student.resetPassword);
+
 router.post('/student/requestWash', student.requestWash);
 router.post('/student/fetchRecord', student.fetchRecord);
 router.get('/student/fetchDates', student.fetchDates);
