@@ -71,8 +71,7 @@ function ResetPassword() {
         }
     }
 
-    const handleReset = () => {
-
+    const handleReset = async () => {
         const resetPwd = async () => {
             const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/student/resetPassword`, {
                 method: 'POST',
@@ -90,8 +89,7 @@ function ResetPassword() {
                 return false;
             }
             return true;
-        }
-
+        };    
         if (formData.newPassword === "" || formData.confirmPassword === "") {
             alert("Please enter your new password and confirm it.");
         }
@@ -102,14 +100,19 @@ function ResetPassword() {
             alert("Password should be atleast 6 characters long");
         }   
         else {
-            const pwdReset = resetPwd();
-            console.log("reset function executed successfully");
-            if (pwdReset) {
-                console.log(formData.otp);
-                alert('Password reset successful');
-                navigator('/login?type=student');
-            }
-            else {
+            try {
+                const pwdReset = await resetPwd(); // Wait for resetPwd() to complete
+               
+                if (pwdReset) {
+                    console.log(formData.otp);
+                    alert('Password reset successful');
+                    navigator('/login?type=student');
+                }
+                else {
+                    alert('Password reset failed. Please try again.');
+                }
+            } catch (error) {
+                console.error("Error occurred during password reset:", error);
                 alert('Password reset failed. Please try again.');
             }
         }
