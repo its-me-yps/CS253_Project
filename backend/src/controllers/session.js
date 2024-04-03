@@ -83,13 +83,13 @@ const washermanLogin = async (req, res) => {
             res.cookie('token', token, cookieOptions);
 
             // Initialize WebSocket connection
-            // const ws = new WebSocket(process.env.WS_URL);
+            const ws = new WebSocket(process.env.WS_URL);
 
-            // ws.onopen = () => {
-            //     // Save WebSocket connection in Washerman document
-            //     user.wsConn = ws;
-            //     user.save();
-            // };
+            ws.onopen = () => {
+                // Save WebSocket connection in Washerman document
+                user.wsConn = ws;
+                user.save();
+            };
 
             // Set cookie with user info
             res.cookie('info', JSON.stringify({
