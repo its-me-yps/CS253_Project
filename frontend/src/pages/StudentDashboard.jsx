@@ -2,7 +2,6 @@ import React from "react";
 import Cookies from "js-cookie";
 import CalendarTop2 from "../components/dashboardComponents/calendarTop2";
 import StudentCalendar from "../components/dashboardComponents/studentcalender";
-import Footerstudent from "../components/dashboardComponents/footerstudentdash";
 import { useNavigate } from 'react-router-dom';
 
 function StudentDashboard(){
@@ -26,7 +25,6 @@ function StudentDashboard(){
             <div className="form">
        <CalendarTop2 user={user} onLogout={onLogout}/>
        <StudentCalendar/>
-       <Footerstudent/>
        </div>
        </div>
        </>
@@ -35,3 +33,4 @@ function StudentDashboard(){
 }
 
 export default StudentDashboard;
+
