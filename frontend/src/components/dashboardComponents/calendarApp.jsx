@@ -30,6 +30,31 @@ const CalendarApp = () => {
     }
   };
 
+  
+
+      const updateUpcomingDate = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/washerman/upcomingDate`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ upcomingDate: selectedDate }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log(data.message); // Success message
+      } else {
+        console.error(data.message); // Error message
+      }
+    } catch (error) {
+      console.error('Error updating upcoming date:', error);
+    }
+  };
+  
+
   const Delete_Event_Fun = (eventId) => {
     const updatedEvents = events.filter((event) => event.id !== eventId);
     setEvents(updatedEvents);
@@ -56,6 +81,17 @@ const CalendarApp = () => {
           />
         </div>
         <div className="event-container">
+          <div className="event-form">
+            <h3>Add Upcoming Date</h3>
+            <p>
+              Selected Date:
+              {selectedDate ? selectedDate.toDateString() : <b>Select a date </b>}
+            </p>
+           
+            <Button variant="contained" className="create-btn" onClick={updateUpcomingDate} id="11">
+              Notify Upcoming Date
+            </Button>
+          </div>
           <div className="event-form">
             <h3>Create Event</h3>
             <p>
