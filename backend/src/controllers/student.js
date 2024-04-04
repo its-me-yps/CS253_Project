@@ -140,7 +140,10 @@ const fetchRecord = async (req, res) => {
         });
 
         // clothes given on that date
-        const clothesForDate = recordForDate.map(record => record.clothes).flat();
+        const clothesForDate = recordForDate.map(record => ({
+            clothes: record.clothes,
+            accept: record.accept
+        })).flat();
 
         return res.status(200).json({ success: true, clothes: clothesForDate });
     } catch (error) {
