@@ -141,3 +141,11 @@
 }
 
 }
+
+.green-tile {
+  background-color: green !important;
+}
+
+.red-tile {
+  background-color: red !important;
+}
