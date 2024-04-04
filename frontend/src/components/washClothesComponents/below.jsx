@@ -19,7 +19,7 @@ const Below = ({ counter }) => {
 
     const navigate = useNavigate();
 
-    const handleWashCLothes = () => {
+    const handleWashCLothes = async () => {
         let clothes =[
             {'type':'upper wear','quantity':counter['1']},
             {'type':'lower wear','quantity':counter['2']},
@@ -28,7 +28,23 @@ const Below = ({ counter }) => {
             {'type':'miscellaneous','quantity':counter['5']}
         ];
         console.log("Washing Clothes");
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/student/requestWash`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include',
+            body: JSON.stringify({
+                "clothes": clothes
+            })
+        })
         navigate("/StudentDashboard");
+        if (response.ok) {
+            alert('Wash Request Made');
+        }
+        else {
+            alert('Error making wash request');
+        }
     }
 
     return (
