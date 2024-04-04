@@ -2,17 +2,20 @@ import CalendarApp from "../components/dashboardComponents/calendarApp";
 import CalendarTop from "../components/dashboardComponents/calendarTop";
 import Notification from "../components/dashboardComponents/notification";
 import Footer from "../components/dashboardComponents/footerwashdash";
+
 import { useNavigate } from "react-router-dom";
+
 import Cookies from "js-cookie";
 
 function WashermanDashboard() {
     const navigate = useNavigate();
-
     const infoCookie = Cookies.get('info');
     const user = infoCookie ? JSON.parse(decodeURIComponent(infoCookie)) : null;
 
     function onLogout() {
         Cookies.remove('info');
+        Cookies.remove('selectedHall');
+        Cookies.remove('selectedWing');
         const response = fetch(`${process.env.REACT_APP_BACKEND_URL}/session/washerman/logout`, {
             method: "GET",
             credentials: "include",
@@ -21,6 +24,12 @@ function WashermanDashboard() {
     }
     const selectedHall=Cookies.get('selectedHall');
     const selectedWing =Cookies.get('selectedWing');
+    function collect(){
+        navigate("/Washerman/Collect")
+    }
+    function print(){
+        navigate("/Washerman/Print")
+    }
 
     return (
         <>
@@ -29,8 +38,7 @@ function WashermanDashboard() {
                     {/* Pass selected hall and wing to CalendarTop component */}
                     <CalendarTop user={user} onLogout={onLogout} hall={selectedHall} wing={selectedWing} />
                     <CalendarApp />
-                    <Notification />
-                    <Footer />
+                    <Footer collect={collect} print={print}/>
                 </div>
             </div>
         </>
@@ -38,5 +46,3 @@ function WashermanDashboard() {
 }
 
 export default WashermanDashboard;
-
-
