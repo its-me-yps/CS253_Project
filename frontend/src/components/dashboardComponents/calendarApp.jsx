@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-
-import Button from '@mui/material/Button'; 
-import DeleteIcon from '@mui/icons-material/Delete';
+import Cookies from "js-cookie";
+import Button from "@mui/material/Button";
+import DeleteIcon from "@mui/icons-material/Delete";
+import Notification from "./notification";
 
 import "./calendarApp.css";
 
@@ -12,9 +13,12 @@ const CalendarApp = () => {
   const [eventName, setEventName] = useState("visiting");
   const [events, setEvents] = useState([]);
 
+  const today = new Date();
+  const minDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
   const Date_Click_Fun = (date) => {
     setSelectedDate(date);
-    if(!eventName){
+    if (!eventName) {
       setEventName("visiting");
     }
   };
@@ -30,9 +34,42 @@ const CalendarApp = () => {
     }
   };
 
-  
+  const Delete_Event_Fun = (eventId) => {
+    const updatedEvents = events.filter((event) => event.id !== eventId);
+    setEvents(updatedEvents);
+  };
 
-      const updateUpcomingDate = async () => {
+  const selectedHall = Cookies.get("selectedHall");
+  const selectedWing = Cookies.get("selectedWing");
+
+  const addEvents = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/washerman/wing/addEvents`,{
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          events,
+          hall: selectedHall,
+          wing: selectedWing,
+        }),
+      });
+
+      if (response.ok) {
+        console.log("Events successfully sent to backend.");
+        console.log(response);
+        // Optionally, you can clear the events state after successfully sending them to the backend
+        setEvents([]);
+      } else {
+        console.error("Failed to send events to backend.");
+      }
+    } catch (error) {
+      console.error("Error sending events to backend:", error);
+    }
+  };
+  const updateUpcomingDate = async () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/washerman/upcomingDate`, {
         method: 'POST',
@@ -54,34 +91,30 @@ const CalendarApp = () => {
       console.error('Error updating upcoming date:', error);
     }
   };
-  
-
-  const Delete_Event_Fun = (eventId) => {
-    const updatedEvents = events.filter((event) => event.id !== eventId);
-    setEvents(updatedEvents);
-  };
 
   return (
-    <div className="">
-      <div className="container">
-        <div className="calendar-container">
-          <Calendar className="calender"
-            value={selectedDate}
-            onClickDay={Date_Click_Fun}
-            tileClassName={({ date }) =>
-              selectedDate &&
-              date.toDateString() === selectedDate.toDateString()
-                ? "selected"
-                : events.some(
-                    (event) =>
-                      event.date.toDateString() === date.toDateString()
-                  )
-                ? "event-marked"
-                : ""
-            }
-          />
-        </div>
-        <div className="event-container">
+    <>
+      <div className="">
+        <div className="container">
+          <div className="calendar-container">
+            <Calendar
+              className="calender"
+              value={selectedDate}
+              onClickDay={Date_Click_Fun}
+              tileClassName={({ date }) =>
+                selectedDate &&
+                date.toDateString() === selectedDate.toDateString()
+                  ? "selected"
+                  : events.some(
+                      (event) => event.date.toDateString() === date.toDateString()
+                    )
+                  ? "event-marked"
+                  : ""
+              }
+              minDate={minDate} // Setting the minimum date
+            />
+          </div>
+          <div className="event-container">
           <div className="event-form">
             <h3>Add Upcoming Date</h3>
             <p>
@@ -93,42 +126,59 @@ const CalendarApp = () => {
               Notify Upcoming Date
             </Button>
           </div>
-          <div className="event-form">
-            <h3>Create Event</h3>
-            <p>
-              Selected Date:
-              {selectedDate ? selectedDate.toDateString() : <b>Select a date </b>}
-            </p>
-            <input
-              type="text"
-              placeholder="Event Name"
-              value={eventName}
-              className="pb-2"
-              id="input" // Adding id here
-              onChange={(e) => setEventName(e.target.value)}
-            />
-            <Button variant="contained" className="create-btn" onClick={Create_Event_Fun} id="11">
-              Add Event
-            </Button>
-          </div>
-          <div className="event-list">
-            <h3>Events</h3>
-            <ul>
-              {events.map((event) => (
-                <li key={event.id}>
-                  <span>
-                    {event.date.toDateString()} - {event.title}
-                  </span>
-                  <Button variant="outlined" style={{color:"red", border:"1px solid red"}} startIcon={<DeleteIcon/>} onClick={() => Delete_Event_Fun(event.id)} id="11">
-                    Delete
-                  </Button>
-                </li>
-              ))}
-            </ul>
+            <div className="event-form">
+              <h3>Create Event</h3>
+              <p>
+                Selected Date:
+                {selectedDate ? (
+                  selectedDate.toDateString()
+                ) : (
+                  <b>Select a date </b>
+                )}
+              </p>
+              <input
+                type="text"
+                placeholder="Event Name"
+                value={eventName}
+                className="pb-2"
+                id="input" // Adding id here
+                onChange={(e) => setEventName(e.target.value)}
+              />
+              <Button
+                variant="contained"
+                className="create-btn"
+                onClick={Create_Event_Fun}
+                id="11"
+              >
+                Add Event
+              </Button>
+            </div>
+            <div className="event-list">
+              <h3>Events</h3>
+              <ul>
+                {events.map((event) => (
+                  <li key={event.id}>
+                    <span>
+                      {event.date.toDateString()} - {event.title}
+                    </span>
+                    <Button
+                      variant="outlined"
+                      style={{ color: "red", border: "1px solid red" }}
+                      startIcon={<DeleteIcon />}
+                      onClick={() => Delete_Event_Fun(event.id)}
+                      id="11"
+                    >
+                      Delete
+                    </Button>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      <Notification Notify={addEvents} />
+    </>
   );
 };
 
