@@ -171,6 +171,58 @@ const addEvents=async(req,res)=>{
         res.status(500).json({ success: false, message: 'Internal server error' });
     }
 }
-const washerman = {wingRecord, upcomingDate,addEvents,collectCloths};
+const fetchSummary = async (req, res) => {
+    try {
+        const { hall, wing } = req.body;
+
+        // Find the washerman
+        const washerman = await Washerman.findOne({ contact: req.user.contact }).populate({
+            path: 'halls',
+            match: { name: hall },
+            populate: {
+                path: 'wings',
+                match: { name: wing },
+                populate: {
+                    path: 'students',
+                    populate: { path: 'records' }
+                }
+            }
+        });
+
+        if (!washerman) {
+            return res.status(404).json({ success: false, message: 'Washerman not found' });
+        }
+
+        const hallData = washerman.halls.find(h => h.name === hall);
+        if (!hallData) {
+            return res.status(404).json({ success: false, message: 'Hall not found for this washerman' });
+        }
+
+        const wingData = hallData.wings.find(w => w.name === wing);
+        if (!wingData) {
+            return res.status(404).json({ success: false, message: 'Wing not found for this hall' });
+        }
+
+        const students = wingData.students.filter(student => student.records.some(record => record.accept));
+        const summary = students.map(student => ({
+            Name: student.name,
+            Wing: student.wing,
+            Hall: student.hall,
+            'Total Clothes': student.records.reduce((total, record) => {
+                if (record.accept) {
+                    return total + record.clothes.reduce((subtotal, cloth) => subtotal + cloth.quantity, 0);
+                }
+                return total;
+            }, 0),
+            'Total Dues': student.dueAmount,
+            Month: new Date().toLocaleString('en-us', { month: 'long' })
+        }));
+        res.status(200).json({ success: true, summary });
+    } catch (error) {
+        console.error('Error fetching summary:', error);
+        res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+};
+const washerman = {wingRecord, upcomingDate,addEvents,collectCloths,fetchSummary};
 
 export default washerman;
