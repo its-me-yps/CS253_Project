@@ -95,7 +95,7 @@ const addEvents=async(req,res)=>{
             return res.status(404).json({ success: false, message: 'Empty events' });
         }
 
-        const students = wingData.students;
+       const students = wingData.students;
         for (const student of students) {
             for (const event of events) {
                 const existingEventIndex = student.events.findIndex(
@@ -105,12 +105,14 @@ const addEvents=async(req,res)=>{
                 if (existingEventIndex !== -1) {
                     // Merge the event types if the event date already exists
                     student.events[existingEventIndex].eventType.push(event.title);
+
                 } else {
                     // Create a new event object if the event date doesn't exist
                     student.events.push({
                         date: new Date(event.date),
                         eventType: [event.title]
                     });
+                    
                 }
             }
             await student.save();
