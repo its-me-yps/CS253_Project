@@ -35,7 +35,6 @@ router.post('/admin/addHallData', admin.addHallData);
 
 // Student Routes
 // requestWash is done through web socket conn and response is received through event listener
-
 router.post('/student/requestWash', student.requestWash);
 router.post('/student/fetchRecord', student.fetchRecord);
 router.get('/student/fetchDates', student.fetchDates);
@@ -48,6 +47,7 @@ router.post('/verifyPayment', pay.verifyPayment);
 // Washerman routes
 router.post('/washerman/wing/fetchRecord', washerman.wingRecord);
 router.post('/washerman/upcomingDate', washerman.upcomingDate);
+router.post('/washerman/wing/addEvents', washerman.addEvents);
 
 export default router;
 
