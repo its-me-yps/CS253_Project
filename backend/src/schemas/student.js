@@ -22,8 +22,14 @@ const studentSchema = new mongoose.Schema({
         date: { type: Date, required: true },
         // Array of pair(type of cloth and number of units) in clothes
         clothes: [{ type: { type: String, required: true }, quantity: { type: Number, required: true } }],
+        accept :{type:Boolean,default:false}
     }],
     // last date whose dues were cleared, charges for all clothes after that are added in dueAmount
+    events:[{
+        date: { type: Date, required: true },
+        eventType: [{ 
+            type: String, 
+    }]}],
     lastCleared : { type: Date },
     receipts: [receiptSchema], 
     dueAmount: { type: Number, required: true }
