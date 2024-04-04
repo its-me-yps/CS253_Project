@@ -67,37 +67,17 @@ const requestWash = async (req, res) => {
         }
 
         const { clothes } = req.body;
-        const { washerman } = student;
 
-        if (!washerman.wsConn) {
-            return res.status(400).json({ success: false, message: 'Washerman not logged in' });
-        }
-
-        const request = {
-            type: 'requestWash',
-            data: {
-                clothes,
-                student: {
-                    name: student.name,
-                    roll: student.roll,
-                    hall: student.hall,
-                    wing: student.wing
-                }
-            }
+        const record = {
+            date: new Date(),
+            clothes: clothes.map(cloth => ({ type: cloth.type, quantity: cloth.quantity })),
+            accept: false
         };
-        washerman.wsConn.send(JSON.stringify(request));
+
+        student.records.push(record);
+        await student.save();
 
         res.status(200).json({ success: true, message: 'Request sent successfully' });
-
-        washerman.wsConn.on('message', (message) => {
-            const response = JSON.parse(message);
-            if (response.type === 'acceptRequest' && response.roll === student.roll) {
-                // Add a new record to the student's documents
-                const record = { date: new Date(), clothes };
-                student.records.push(record);
-                student.save();
-            }
-        });
 
     } catch (error) {
         console.error('Error handling requestWash:', error);
