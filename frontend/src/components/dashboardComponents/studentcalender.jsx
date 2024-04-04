@@ -3,79 +3,84 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
 import "./calendarApp.css";
 import './footerwashdash.css';
+
 const StudentCalendar = () => {
     const [selectedDate, setSelectedDate] = useState(null);
-    const [clothes, setClothes] = useState([]);
     const [highlightedDates, setHighlightedDates] = useState([]);
+    const [clothesMap, setClothesMap] = useState({});
+    const [openDialog, setOpenDialog] = useState(false);
+    const [clothesForDate, setClothesForDate] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetchDatesFromDatabase();
+        fetchData();
     }, []);
 
-    const fetchDatesFromDatabase = async () => {
-        // Fetch dates from the database
-        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/student/fetchDates`, {
-            method: 'GET',
-            credentials: 'include'
-        });
-        if (response.ok) {
-            const resJson = await response.json();
-            setHighlightedDates(resJson.dates); // Set the dates retrieved from the database
-        } else {
-            console.error("Failed to fetch dates");
+    const fetchData = async () => {
+        try {
+            // Fetch all dates
+            const datesResponse = await fetch(`${process.env.REACT_APP_BACKEND_URL}/student/fetchDates`, {
+                method: 'GET',
+                credentials: 'include'
+            });
+            if (datesResponse.ok) {
+                const datesJson = await datesResponse.json();
+                setHighlightedDates(datesJson.dates);
+
+                // Fetch clothes records for each date
+                const clothesData = await Promise.all(datesJson.dates.map(async date => {
+                    const clothesResponse = await fetch(`${process.env.REACT_APP_BACKEND_URL}/student/fetchRecord`, {
+                        method: 'POST',
+                        credentials: 'include',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            date: date,
+                        })
+                    });
+                    if (clothesResponse.ok) {
+                        const clothesJson = await clothesResponse.json();
+                        return { date: date, clothes: clothesJson.clothes };
+                    } else {
+                        console.error("Failed to fetch clothes for date", date);
+                        return { date: date, clothes: [] };
+                    }
+                }));
+
+                // Construct a map with date as key and clothes as value
+                const clothesMap = {};
+                clothesData.forEach(({ date, clothes }) => {
+                    clothesMap[date] = clothes;
+                });
+                setClothesMap(clothesMap);
+                console.log(clothesMap);
+            } else {
+                console.error("Failed to fetch dates");
+            }
+        } catch (error) {
+            console.error("Error fetching data:", error);
         }
     };
 
     const handleDateClick = (date) => {
         setSelectedDate(date);
-        // Fetch events for the selected date
-        fetchClothesForDate(date);
+        setClothesForDate(clothesMap[date.toDateString()] || []);
+        setOpenDialog(true);
     };
 
-    const fetchClothesForDate = async (date) => {
-        // Fetch events for the selected date
-        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/student/fetchClothes`, {
-            method: 'POST',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                date: date,
-            })
-        });
-
-        if (response.ok) {
-            const resJson = await response.json();
-            setClothes(resJson); // Set the events for the selected date
-        } else {
-            console.error("Failed to fetch events for the selected date");
-        }
-    };
-
-    const getTileClassName = ({ date }) => {
-        const dateString = date.toISOString().split('T')[0];
-        // Check if the date is present in the highlightedDates array
-        if (highlightedDates.some(date => date.toISOString().split('T')[0] === dateString)) {
-            // Color the date based on the boolean value from the database
-            return "highlighted";
-        }
-        return ""; // Default class if date is not present in the highlightedDates array
+    const handleCloseDialog = () => {
+        setOpenDialog(false);
     };
 
     const handleWashClothes = () => {
-        const today = new Date();
-        // Check if the selected date is today's date
-        if (selectedDate && selectedDate.toDateString() === today.toDateString()) {
-            console.log("Wash Clothes clicked");
-            navigate("/WashClothes");
-        } else {
-            console.log("Selected date is not today");
-            // Handle case where selected date is not today
-        }
+        navigate("/WashClothes");
     }
 
     const handlePayDues = () => {
@@ -86,25 +91,42 @@ const StudentCalendar = () => {
         <div className="">
             <div className="">
                 <div className="calendar-container">
-                    <Calendar className="calender"
-                        value={selectedDate}
-                        onClickDay={handleDateClick}
-                        tileClassName={getTileClassName}
-                    />
+                <Calendar
+                    className="calender"
+                    value={selectedDate}
+                    onClickDay={handleDateClick}
+                    tileClassName={({ date, view }) => {
+                        const dateString = date.toDateString();
+                        if(!highlightedDates.includes(dateString)) {
+                            return "";
+                        }
+                        if (clothesMap[dateString] && clothesMap[dateString][0] && clothesMap[dateString][0].accept) {
+                            return "green-tile";
+                        } else {
+                            return "red-tile";
+                        }
+                    }}
+                />
                 </div>
-                {selectedDate && clothes.length > 0 && (
-                    <div className="event-container">
-                        <h3>Events on {selectedDate.toDateString()}</h3>
-                        <ul>
-                            {clothes.map(event => (
-                                <li key={event.id}>
-                                    {event.title}
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                )}
             </div>
+            <Dialog open={openDialog} onClose={handleCloseDialog}>
+                <DialogTitle>Clothes for {selectedDate && selectedDate.toDateString()}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        {clothesForDate.length > 0 ? (
+                            <ul>
+                                {clothesForDate[0].clothes.map((cloth, index) => (
+                                    <li key={index}>
+                                        <b>Type</b>: {cloth.type}, <b>Quantity</b>: {cloth.quantity}
+                                    </li>
+                                ))}
+                            </ul>
+                        ) : (
+                            <p>No clothes recorded for this date</p>
+                        )}
+                    </DialogContentText>
+                </DialogContent>
+            </Dialog>
             <div className='flex pt-3'>
                 <Button variant='contained' className='print-button' onClick={handlePayDues}>
                     Pay dues
@@ -118,4 +140,3 @@ const StudentCalendar = () => {
 };
 
 export default StudentCalendar;
-
