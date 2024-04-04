@@ -48,6 +48,6 @@ router.post('/verifyPayment', pay.verifyPayment);
 router.post('/washerman/wing/fetchRecord', washerman.wingRecord);
 router.post('/washerman/upcomingDate', washerman.upcomingDate);
 router.post('/washerman/wing/addEvents', washerman.addEvents);
+router.post('/washerman/wing/collectCloths',washerman.collectCloths);
 
 export default router;
-

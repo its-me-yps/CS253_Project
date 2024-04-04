@@ -62,7 +62,52 @@ const upcomingDate = async (req, res) => {
         res.status(500).json({ success: false, message: 'Internal server error' });
     }
 };
+const collectCloths=async(req,res)=>{
+    try {
+        const { hall, wing } = req.body;
 
+        const washerman = await Washerman.findOne({ contact: req.user.contact }).populate({
+            path: 'halls',
+            match: { name: hall },
+            populate: {
+                path: 'wings',
+                match: { name: wing },
+                populate: {
+                    path: 'students',
+                    populate: { path: 'records' }
+                }
+            }
+        });
+
+        if (!washerman) {
+            return res.status(404).json({ success: false, message: 'Washerman not found' });
+        }
+
+        const hallData = washerman.halls.find(h => h.name === hall);
+        if (!hallData) {
+            return res.status(404).json({ success: false, message: 'Hall not found for this washerman' });
+        }
+
+        const wingData = hallData.wings.find(w => w.name === wing);
+        if (!wingData) {
+            return res.status(404).json({ success: false, message: 'Wing not found for this hall' });
+        }
+
+        const students = wingData.students;
+        const records = students.map(student => ({
+            name: student.name,
+            roll: student.roll,
+            wing: student.wing,
+            hall: student.hall,
+            records: student.records.filter(record => !record.accept)
+        }));
+
+        res.status(200).json({ success: true, records });
+    } catch (error) {
+        console.error('Error fetching wing record:', error);
+        res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+}
 const addEvents=async(req,res)=>{
     try {
         const { hall, wing,events } = req.body;
@@ -95,7 +140,7 @@ const addEvents=async(req,res)=>{
             return res.status(404).json({ success: false, message: 'Empty events' });
         }
 
-       const students = wingData.students;
+        const students = wingData.students;
         for (const student of students) {
             for (const event of events) {
                 const existingEventIndex = student.events.findIndex(
@@ -118,6 +163,7 @@ const addEvents=async(req,res)=>{
             await student.save();
         }
         
+        
 
         res.status(200).json({ success: true });
     } catch (error) {
@@ -125,6 +171,6 @@ const addEvents=async(req,res)=>{
         res.status(500).json({ success: false, message: 'Internal server error' });
     }
 }
-const washerman = {wingRecord, upcomingDate,addEvents};
+const washerman = {wingRecord, upcomingDate,addEvents,collectCloths};
 
 export default washerman;
