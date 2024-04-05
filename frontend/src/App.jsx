@@ -12,7 +12,7 @@ import ResetPassword from './pages/ResetPassword';
 import StudentDashboard from './pages/StudentDashboard';
 import WashermanDashboard from './pages/WashermanDashboard';
 import WashClothes from './pages/WashClothes';
-
+import SummaryPage from './pages/SummaryPage';
 const router = createBrowserRouter([
     {
         path: '/',
@@ -46,6 +46,10 @@ const router = createBrowserRouter([
     {
         path: '/WashermanDashboard',
         element: <WashermanDashboard />,
+    },
+    {
+        path: '/Washerman/PrintSummary',
+        element :  <SummaryPage/>,
     },
     {
         path: '*',

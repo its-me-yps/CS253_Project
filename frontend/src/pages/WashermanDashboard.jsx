@@ -28,7 +28,7 @@ function WashermanDashboard() {
         navigate("/Washerman/Collect")
     }
     function print(){
-        navigate("/Washerman/Print")
+        navigate("/Washerman/PrintSummary")
     }
 
     return (
