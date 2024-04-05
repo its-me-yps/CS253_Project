@@ -140,19 +140,19 @@ function sha256(data) {
 }
 
 // Deployment
-const cookieOptions = {
-    secure: true,
-    sameSite: 'None',
-    path: '/',
-    domain: process.env.DOMAIN
-  };
-
-// For local testing
-//   const cookieOptions = {
-//     sameSite: 'strict',
+// const cookieOptions = {
+//     secure: true,
+//     sameSite: 'None',
 //     path: '/',
 //     domain: process.env.DOMAIN
 //   };
+
+// For local testing
+  const cookieOptions = {
+    sameSite: 'strict',
+    path: '/',
+    domain: process.env.DOMAIN
+  };
 
 const session = { adminLogin, studentLogin, washermanLogin, logout, washermanLogout };
 
