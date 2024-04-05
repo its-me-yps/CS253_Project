@@ -10,7 +10,7 @@ const Footer = () => {
     };
 
     const handleCollectClothes = () => {
-        // Handle collect clothes action
+        navigate("/Washerman/Collect")// Handle collect clothes action
     };
 
     return (

@@ -13,6 +13,7 @@ import StudentDashboard from './pages/StudentDashboard';
 import WashermanDashboard from './pages/WashermanDashboard';
 import WashClothes from './pages/WashClothes';
 import SummaryPage from './pages/SummaryPage';
+import Collectcloths from './pages/Collectcloths';
 const router = createBrowserRouter([
     {
         path: '/',
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
     {
         path: '/Washerman/PrintSummary',
         element :  <SummaryPage/>,
+    },
+    {
+        path:'/Washerman/Collect',
+        element:<Collectcloths/>
     },
     {
         path: '*',
