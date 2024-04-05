@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import  '../styles/SummaryPage.css';
 import Cookies from 'js-cookie';
+import Button from '@mui/material/Button';
+import { useNavigate } from 'react-router-dom';
 const SummaryPage = () => {
   const [summaryData, setSummaryData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -8,6 +10,11 @@ const SummaryPage = () => {
   const hall = Cookies.get('selectedHall');
   const wing = Cookies.get('selectedWing');
 
+const navigate = useNavigate();
+const backButton=()=>{
+
+   navigate("/WashermanDashboard")
+}
   useEffect(() => {
     const fetchSummaryData = async () => {
       try {
@@ -44,9 +51,12 @@ if(error)
     return <div>Error: {error}</div>
 }
 return (
-    
+  
       
     <div className="summary-container">
+      <Button variant="contained" onClick={backButton} className="bg-blue-500 text-white px-4 py-2 mt-4 text-lg  rounded-full justify-start font-extrabold" >
+        back
+      </Button>
       <h1><strong>Summary Page</strong></h1>
       {loading ? (
         <p>Loading...</p>
