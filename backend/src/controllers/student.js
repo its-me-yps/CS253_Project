@@ -68,6 +68,26 @@ const requestWash = async (req, res) => {
 
         const { clothes } = req.body;
 
+        const currentDate = new Date().toDateString();
+
+        const existingRecordIndex = student.records.findIndex(record => {
+            return record.date.toDateString() === currentDate && !record.accept;
+        });
+
+        if (existingRecordIndex !== -1) {
+            student.records[existingRecordIndex].clothes = clothes.map(cloth => ({ type: cloth.type, quantity: cloth.quantity }));
+            await student.save();
+            return res.status(200).json({ success: true, message: 'Update success' });
+        }
+
+        const existingAcceptedRecordIndex = student.records.findIndex(record => {
+            return record.date.toDateString() === currentDate && record.accept;
+        });
+
+        if (existingAcceptedRecordIndex !== -1) {
+            return res.status(400).json({ success: false, message: 'Request already accepted' });
+        }
+
         const record = {
             date: new Date(),
             clothes: clothes.map(cloth => ({ type: cloth.type, quantity: cloth.quantity })),
