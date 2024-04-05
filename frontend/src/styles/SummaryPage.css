@@ -1,9 +1,7 @@
-body{
+*{
   font-family: 'Arial', sans-serif;
-   background-color: aqua;
-  background-repeat: no-repeat;
+  background-color: rgb(217, 245, 212);
   background-size: cover;
-  margin: 0;
 }
 h1{
   text-align: center;
