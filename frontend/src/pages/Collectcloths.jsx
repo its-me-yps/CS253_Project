@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
+import Button from '@mui/material/Button';
 import '../styles/Collectcloths.css';
-
+import { useNavigate } from 'react-router-dom';
 const Collectcloths = () => {
     const [records, setRecords] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -36,7 +37,11 @@ const Collectcloths = () => {
 
         fetchRecords();
     }, []);
-
+    const navigate = useNavigate();
+    const backButton=()=>{
+    
+       navigate("/WashermanDashboard")
+    }
     if (loading) {
         return <div className="cloth-collection loading">Loading...</div>;
     }
@@ -47,7 +52,10 @@ const Collectcloths = () => {
 
     return (
         <div className="cloth-collection">
-            <h2>Records</h2>
+            <Button variant="contained" onClick={backButton} className="bg-blue-500 text-white px-4 py-2 mt-4 text-lg  rounded-full justify-start font-extrabold" >
+        Back
+      </Button>
+            <h1><strong>Records</strong></h1>
             <table>
                 <thead>
                     <tr>
