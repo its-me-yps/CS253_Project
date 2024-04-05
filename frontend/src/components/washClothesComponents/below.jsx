@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
-const Below = ({ counter }) => {
 
+const Below = ({ counter }) => {
     const [total, setTotal] = useState(0);
     const [Ctotal, setCtotal] = useState(0);
 
@@ -12,7 +12,7 @@ const Below = ({ counter }) => {
 
     const calculateTotal = () => {
         let x = counter['1'] * 10 + counter['2'] * 10 + counter['3'] * 10 + counter['4'] * 30 + counter['5'] * 50;
-        let y = counter['1'] + counter['1'] + counter['2'] + counter['3'] + counter['4'] + counter['5'];
+        let y = counter['1'] + counter['2'] + counter['3'] + counter['4'] + counter['5'];
         setTotal(x);
         setCtotal(y);
     };
@@ -27,25 +27,38 @@ const Below = ({ counter }) => {
             {'type':'heavy wear','quantity':counter['4']},
             {'type':'miscellaneous','quantity':counter['5']}
         ];
+        
         console.log("Washing Clothes");
-        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/student/requestWash`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            credentials: 'include',
-            body: JSON.stringify({
-                "clothes": clothes
-            })
-        })
-        navigate("/StudentDashboard");
-        if (response.ok) {
-            alert('Wash Request Made');
-        }
-        else {
+
+        try {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/student/requestWash`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: JSON.stringify({
+                    "clothes": clothes
+                })
+            });
+
+            if (response.ok) {
+                alert('Wash Request Made');
+            } else if (response.status === 400) {
+                const data = await response.json();
+                alert(data.message); // Request already accepted
+            } else if (response.status === 500) {
+                alert('Internal Server Error'); // Internal server error
+            } else {
+                alert('Error making wash request'); // Other errors
+            }
+
+            navigate("/StudentDashboard");
+        } catch (error) {
+            console.error('Error making wash request:', error);
             alert('Error making wash request');
         }
-    }
+    };
 
     return (
         <>
@@ -58,7 +71,6 @@ const Below = ({ counter }) => {
                 </div>
             </div>
 
-
             <div className="flex">
                 <div className="text-2xl font-bold text-blue-500">
                     Total Cost:
@@ -68,7 +80,6 @@ const Below = ({ counter }) => {
                 </div>
             </div>
 
-
             <div className="flex">
                 <div className="text-2xl font-bold text-blue-500">
                     Return date:
@@ -77,12 +88,14 @@ const Below = ({ counter }) => {
                    Unavailable 
                 </div>
             </div>
-            <Button variant='contained' 
-        className="max-w-screen flex flex-col items-center justify-center p- bg-blue-500 text-white px-4 py-2 mt-4 rounded-full focus:outline-none focus:ring focus:border-blue-300"
-        onClick={handleWashCLothes}
-      >
-        WASH
-      </Button>
+
+            <Button 
+                variant='contained' 
+                className="max-w-screen flex flex-col items-center justify-center p- bg-blue-500 text-white px-4 py-2 mt-4 rounded-full focus:outline-none focus:ring focus:border-blue-300"
+                onClick={handleWashCLothes}
+            >
+                WASH
+            </Button>
         </>
     );
 };
