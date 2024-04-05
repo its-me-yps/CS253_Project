@@ -1,7 +1,6 @@
 body{
   font-family: 'Arial', sans-serif;
-  background-image: url('../Background.jpg');
-  background-color: rgba(255, 255, 255, 0.5);
+   background-color: aqua;
   background-repeat: no-repeat;
   background-size: cover;
   margin: 0;
