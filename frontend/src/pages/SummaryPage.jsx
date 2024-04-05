@@ -34,7 +34,7 @@ const SummaryPage = () => {
     };
 
     fetchSummaryData();
-  });
+  },[]);
 if(loading)
 {
     return <div>Loading....</div>
