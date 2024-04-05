@@ -52,6 +52,10 @@ const router = createBrowserRouter([
         element :  <SummaryPage/>,
     },
     {
+        path:'/Washerman/Collect',
+        element:<Collectcloths/>
+    },
+    {
         path: '*',
         element: <NotFound />
     }
