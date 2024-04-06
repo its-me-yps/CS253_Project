@@ -91,7 +91,6 @@ const requestWash = async (req, res) => {
         const { clothes } = req.body;
 
         const currentDate = new Date().toDateString();
-
         const existingRecordIndex = student.records.findIndex(record => {
             return record.date.toDateString() === currentDate && !record.accept;
         });

@@ -7,6 +7,7 @@ const CalendarTop2 = ({ user, onLogout }) => {
 
   const selectedHall = Cookies.get("selectedHall");
   const selectedWing = Cookies.get("selectedWing");
+  const options = { timeZone: 'Asia/Kolkata' };
   useEffect(() => {
     const fetchUpcomingDate = async () => {
       try {
@@ -36,7 +37,7 @@ const CalendarTop2 = ({ user, onLogout }) => {
     };
   
     fetchUpcomingDate();
-  }, [ selectedHall, selectedWing]);
+  }, []);
   
 
   return (
@@ -44,7 +45,7 @@ const CalendarTop2 = ({ user, onLogout }) => {
       {/* Display upcoming date if available */}
       {upcomingDate && (
         <div className="upcoming-date">
-            <h3 style={{ color: 'red' }}><strong>Upcoming date of your allotted washerman is - {(new Date(upcomingDate)).toDateString()}</strong></h3>
+            <h3 style={{ color: 'red' }}><strong>Upcoming date of your allotted washerman is - {(new Date(upcomingDate)).toLocaleDateString('en-IN', options)}</strong></h3>
         </div>
       )}
 

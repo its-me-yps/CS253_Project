@@ -48,13 +48,17 @@ const wingRecord = async (req, res) => {
 const upcomingDate = async (req, res) => {
     try {
         const { upcomingDate } = req.body;
-
+        console.log(upcomingDate);
+        console.log(new Date(upcomingDate));
+        const options = { timeZone: 'Asia/Kolkata' };
+        const indianDate = upcomingDate.toLocaleString('en-IN', options);
+        console.log(indianDate);
         const washerman = await Washerman.findOne({ contact: req.user.contact });
         if (!washerman) {
             return res.status(404).json({ success: false, message: 'Washerman not found' });
         }
 
-        washerman.upcomingDate = upcomingDate;
+        washerman.upcomingDate = new Date(upcomingDate);
         await washerman.save();
         res.status(200).json({ success: true, message: 'Upcoming date updated successfully' });
     } catch (error) {
@@ -63,11 +67,12 @@ const upcomingDate = async (req, res) => {
     }
 };
 function isToday(someDate) {
-    const currentDate = new Date().toDateString();
+    const currentDate = new Date().toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata' });
     return (
-        someDate.toDateString() === currentDate 
+        someDate.toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata' }) === currentDate 
     );
 }
+
 const collectCloths = async (req, res) => {
     try {
         const { hall, wing } = req.body;

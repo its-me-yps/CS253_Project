@@ -79,7 +79,7 @@ const CalendarApp = () => {
           'Content-Type': 'application/json',
         },
         credentials: 'include',
-        body: JSON.stringify({ upcomingDate: selectedDate }),
+        body: JSON.stringify({ upcomingDate: selectedDate.toDateString() }),
       });
 
       const data = await response.json();
