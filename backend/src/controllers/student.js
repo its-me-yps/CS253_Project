@@ -3,7 +3,29 @@ import Student from '../schemas/student.js';
 import AuthCode from '../schemas/auth.js';
 import Data from '../schemas/data.js'
 import pay from '../payment/pay.js';
+import Washerman from '../schemas/washerman.js';
 import jwt from 'jsonwebtoken';
+
+
+// Function to fetch the upcoming date from the washerman assigned to the student
+const fetchUpcomingDate = async (req, res) => {
+    try {
+        const student = await Student.findOne({ roll: req.user.roll }).populate('washerman');
+        if (!student) {
+            return res.status(404).json({ success: false, message: 'Student not found' });
+        }
+
+        const washerman = student.washerman;
+        if (!washerman) {
+            return res.status(404).json({ success: false, message: 'Washerman not assigned to the student' });
+        }
+
+        return res.status(200).json({ success: true, upcomingDate: washerman.upcomingDate });
+    } catch (error) {
+        console.error('Error fetching upcoming date:', error);
+        return res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+};
 
 export const register = async (req, res) => {
     const { roll, name, email, hall, wing, pass, authCode } = req.body;
@@ -42,7 +64,7 @@ export const register = async (req, res) => {
             hall,
             wing,
             passHash,
-            dueAmount: 0,
+            dueAmount,
             // Student's wing was alloted to this washerman by admin
             washerman: wingObject.washerman
         });
@@ -88,6 +110,16 @@ const requestWash = async (req, res) => {
             return res.status(400).json({ success: false, message: 'Request already accepted' });
         }
 
+        // Calculate total amount for the current wash request
+        const totalAmount = clothes.reduce((acc, cloth) => {
+        
+            const clothPrice = 10; // Example price per cloth unit
+            return acc + (cloth.quantity * clothPrice);
+        }, 0);
+
+        // Add the total amount to the existing due amount
+        student.dueAmount += totalAmount;
+
         const record = {
             date: new Date(),
             clothes: clothes.map(cloth => ({ type: cloth.type, quantity: cloth.quantity })),
@@ -97,7 +129,7 @@ const requestWash = async (req, res) => {
         student.records.push(record);
         await student.save();
 
-        res.status(200).json({ success: true, message: 'Request sent successfully' });
+        res.status(200).json({ success: true, message: 'Request sent successfully', totalAmount: totalAmount });
 
     } catch (error) {
         console.error('Error handling requestWash:', error);
@@ -248,6 +280,7 @@ function sha256(data) {
     return crypto.createHash('sha256').update(data).digest('hex');
 };
 
-const student = { register, requestWash ,fetchDates, clearDue, fetchRecord, fetchReceipt, paymentDates,resetPassword};
+const student = { register, requestWash ,fetchDates, clearDue, fetchRecord, fetchReceipt, paymentDates,resetPassword,fetchUpcomingDate};
 
 export default student;
+
