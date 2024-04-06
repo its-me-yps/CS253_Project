@@ -53,9 +53,9 @@ if(error)
 return (
   
       
-    <div className="summary-container">
+    <div>
       <Button variant="contained" onClick={backButton} className="bg-blue-500 text-white px-4 py-2 mt-4 text-lg  rounded-full justify-start font-extrabold" >
-        back
+        Back
       </Button>
       <h1><strong>Summary Page</strong></h1>
       {loading ? (
