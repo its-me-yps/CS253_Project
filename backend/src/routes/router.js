@@ -34,13 +34,13 @@ router.post('/admin/washerman/register', admin.registerWasherman);
 router.post('/admin/addHallData', admin.addHallData);
 
 // Student Routes
-// requestWash is done through web socket conn and response is received through event listener
 router.post('/student/requestWash', student.requestWash);
 router.post('/student/fetchRecord', student.fetchRecord);
 router.get('/student/fetchDates', student.fetchDates);
 router.post('/student/payment/fetchReceipt', student.fetchReceipt);
 router.get('/student/payment/fetchDates', student.paymentDates);
 router.get('/student/payment/clearDue', student.clearDue);
+router.post('/student/fetchUpcomingDate', student.fetchUpcomingDate);
 // For payment verification from RazorPay
 router.post('/verifyPayment', pay.verifyPayment);
 

@@ -58,8 +58,10 @@ const CalendarApp = () => {
       });
 
       if (response.ok) {
+        alert('Events added  successfully!')
         console.log("Events successfully sent to backend.");
         console.log(response);
+        
         // Optionally, you can clear the events state after successfully sending them to the backend
         setEvents([]);
       } else {
@@ -83,7 +85,9 @@ const CalendarApp = () => {
       const data = await response.json();
 
       if (response.ok) {
+        alert('Upcoming date updated successfully!')
         console.log(data.message); // Success message
+        
       } else {
         console.error(data.message); // Error message
       }
