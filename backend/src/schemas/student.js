@@ -32,7 +32,7 @@ const studentSchema = new mongoose.Schema({
     }]}],
     lastCleared : { type: Date },
     receipts: [receiptSchema], 
-    dueAmount: { type: Number, required: true }
+    dueAmount: { type: Number, required: true ,default:0}
 }, { timestamps: true });
 
 const Student = new mongoose.model('Student', studentSchema);

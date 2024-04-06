@@ -64,7 +64,6 @@ export const register = async (req, res) => {
             hall,
             wing,
             passHash,
-            dueAmount,
             // Student's wing was alloted to this washerman by admin
             washerman: wingObject.washerman
         });
