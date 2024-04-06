@@ -41,6 +41,7 @@ router.get('/student/fetchDates', student.fetchDates);
 router.post('/student/payment/fetchReceipt', student.fetchReceipt);
 router.get('/student/payment/fetchDates', student.paymentDates);
 router.get('/student/payment/clearDue', student.clearDue);
+router.post('/student/fetchUpcomingDate', student.fetchUpcomingDate);
 // For payment verification from RazorPay
 router.post('/verifyPayment', pay.verifyPayment);
 
