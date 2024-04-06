@@ -62,7 +62,13 @@ const upcomingDate = async (req, res) => {
         res.status(500).json({ success: false, message: 'Internal server error' });
     }
 };
-const collectCloths=async(req,res)=>{
+function isToday(someDate) {
+    const currentDate = new Date().toDateString();
+    return (
+        someDate.toDateString() === currentDate 
+    );
+}
+const collectCloths = async (req, res) => {
     try {
         const { hall, wing } = req.body;
 
@@ -94,12 +100,14 @@ const collectCloths=async(req,res)=>{
         }
 
         const students = wingData.students;
-        const records = students.map(student => ({
+        const validStudents = students.filter(student => student.records.some(record => !record.accept && isToday(record.date)));
+
+        const records = validStudents.map(student => ({
             name: student.name,
             roll: student.roll,
             wing: student.wing,
             hall: student.hall,
-            records: student.records.filter(record => !record.accept)
+            records: student.records.filter(record => !record.accept && isToday(record.date))
         }));
 
         res.status(200).json({ success: true, records });
@@ -223,6 +231,49 @@ const fetchSummary = async (req, res) => {
         res.status(500).json({ success: false, message: 'Internal server error' });
     }
 };
-const washerman = {wingRecord, upcomingDate,addEvents,collectCloths,fetchSummary};
+const acceptRecord = async (req, res) => {
+    try {      
+        const { hall, wing, roll } = req.body;
+        const washerman = await Washerman.findOne({ contact: req.user.contact }).populate({
+            path: 'halls',
+            match: { name: hall },
+            populate: {
+                path: 'wings',
+                match: { name: wing },
+                populate: {
+                    path: 'students',
+                    match: { roll: roll }, // Directly find the student by roll
+                    populate: { path: 'records' }
+                }
+            }
+        });
+        if (!washerman) {
+            return res.status(404).json({ success: false, message: 'Washerman not found' });
+        }
+        const hallData = washerman.halls.find(h => h.name === hall);
+        if (!hallData) {
+            return res.status(404).json({ success: false, message: 'Hall not found for this washerman' });
+        }
+        const wingData = hallData.wings.find(w => w.name === wing);
+        if (!wingData) {
+            return res.status(404).json({ success: false, message: 'Wing not found for this hall' });
+        }
+        const student = wingData.students[0]; // Since we matched by roll, there should be only one student
+        if (!student) {
+            return res.status(404).json({ success: false, message: 'Student not found in this wing' });
+        }
+        const recordToUpdate = student.records.find(record => !record.accept && isToday(record.date));
+        if (!recordToUpdate) {
+            return res.status(200).json({ success: true, message: 'No records to update for today' });
+        }
+        recordToUpdate.accept = true;
+        await student.save(); // Save the student object to persist the changes
+        res.status(200).json({ success: true, message: 'Record updated successfully' });
+    } catch (error) {
+        console.error('Error updating record:', error);
+        res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+}
+const washerman = {wingRecord, upcomingDate,addEvents,collectCloths,fetchSummary,acceptRecord};
 
 export default washerman;

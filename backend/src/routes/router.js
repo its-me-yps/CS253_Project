@@ -51,5 +51,5 @@ router.post('/washerman/upcomingDate', washerman.upcomingDate);
 router.post('/washerman/wing/addEvents', washerman.addEvents);
 router.post('/washerman/wing/collectCloths',washerman.collectCloths);
 router.post('/washerman/wing/fetchSummary',washerman.fetchSummary);
-
+router.post('/washerman/wing/accept',washerman.acceptRecord);
 export default router;
