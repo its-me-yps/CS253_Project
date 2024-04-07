@@ -83,9 +83,6 @@ const StudentCalendar = () => {
         navigate("/WashClothes");
     }
 
-    const handlePayDues = () => {
-        navigate("/PayDues");
-    }
 
     return (
         <div className="">
@@ -128,9 +125,10 @@ const StudentCalendar = () => {
                 </DialogContent>
             </Dialog>
             <div className='flex pt-3'>
-                <Button variant='contained' className='print-button' onClick={handlePayDues}>
-                    Pay dues
-                </Button>
+            <a href="https://rzp.io/l/2jHJBzsL1k">
+                <Button variant='contained' className='print-button' >
+                   Pay dues
+                </Button></a>
                 <Button variant='contained' className='cloths-button' onClick={handleWashClothes}>
                     Wash Clothes
                 </Button>
