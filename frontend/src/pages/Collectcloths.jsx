@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import '../styles/Collectcloths.css';
 import Button from '@mui/material/Button';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import '../styles/Collectcloths.css';
 import { useNavigate } from 'react-router-dom';
 
@@ -35,7 +36,11 @@ const Collectcloths = () => {
             setLoading(false);
         }
     };
-
+    const navigate = useNavigate();
+    const backButton=()=>{
+    
+       navigate("/WashermanDashboard")
+    }
     useEffect(() => {
         fetchRecords();
     }, []);
@@ -78,7 +83,10 @@ const Collectcloths = () => {
 
     return (
         <div className="cloth-collection">
-            <h2>Records</h2>
+          <div className="p-4">
+        <Button variant="contained" startIcon={<ArrowBackIcon />} onClick={backButton}>Back</Button>
+      </div>
+            <h2><strong>Records</strong></h2>
             <table>
                 <thead>
                     <tr>
