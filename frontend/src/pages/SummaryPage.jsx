@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import  '../styles/SummaryPage.css';
 import Cookies from 'js-cookie';
 import Button from '@mui/material/Button';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate } from 'react-router-dom';
 const SummaryPage = () => {
   const [summaryData, setSummaryData] = useState([]);
@@ -54,9 +55,9 @@ return (
   
       
     <div>
-      <Button variant="contained" onClick={backButton} className="bg-blue-500 text-white px-4 py-2 mt-4 text-lg  rounded-full justify-start font-extrabold" >
-        back
-      </Button>
+       <div className="p-4">
+        <Button variant="contained" startIcon={<ArrowBackIcon />} onClick={backButton}>Back</Button>
+      </div>
       <h1><strong>Summary Page</strong></h1>
       {loading ? (
         <p>Loading...</p>
