@@ -6,7 +6,7 @@ This project is a web application that consists of both frontend and backend com
 * Backend - Express.js
 * Database - MongoDB
 
-#### https://cs-253-project.vercel.app/
+#### http://ec2-13-200-180-49.ap-south-1.compute.amazonaws.com/
 Frontend URL
 #### https://backend-ssnn.onrender.com/
 Backend URL
