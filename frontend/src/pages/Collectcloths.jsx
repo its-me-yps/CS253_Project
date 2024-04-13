@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import '../styles/Collectcloths.css';
 import Button from '@mui/material/Button';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import '../styles/Collectcloths.css';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate } from 'react-router-dom';
 
 const Collectcloths = () => {
@@ -12,6 +12,7 @@ const Collectcloths = () => {
     const [error, setError] = useState(null);
     const hall = Cookies.get('selectedHall');
     const wing = Cookies.get('selectedWing');
+    const navigate =useNavigate();
 
     const fetchRecords = async () => {
         try {
@@ -36,11 +37,7 @@ const Collectcloths = () => {
             setLoading(false);
         }
     };
-    const navigate = useNavigate();
-    const backButton=()=>{
-    
-       navigate("/WashermanDashboard")
-    }
+
     useEffect(() => {
         fetchRecords();
     }, []);
@@ -72,6 +69,9 @@ const Collectcloths = () => {
             // Handle error if necessary
         }
     };
+    function backButton(){
+        navigate("/WashermanDashboard")
+    }
 
     if (loading) {
         return <div className="cloth-collection loading">Loading...</div>;
@@ -82,11 +82,11 @@ const Collectcloths = () => {
     }
 
     return (
-        <div className="cloth-collection">
-          <div className="p-4">
-        <Button variant="contained" startIcon={<ArrowBackIcon />} onClick={backButton}>Back</Button>
-      </div>
-            <h2><strong>Records</strong></h2>
+        <div className="cloth-collection" >
+            <Button variant="contained" startIcon={<ArrowBackIcon />}onClick={backButton} style={{marginLeft:'0px', important:true}} >
+        BACK
+      </Button>
+            <h2><b>Records</b></h2>
             <table>
                 <thead>
                     <tr>
