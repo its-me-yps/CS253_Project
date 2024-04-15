@@ -1,3 +1,5 @@
+@import "~animate.css/animate.css";
+
 body {
   font-family: 'Arial', sans-serif;
   background-image: linear-gradient(to bottom, #b1dfdfef, hsl(0, 35%, 85%));
@@ -11,11 +13,11 @@ body {
   align-items: center;
   justify-content: center;
   min-width: 300px;
-  /* height: 50vh; */
   border-radius: 10px;
   border: 1px solid #fff7f1;
   padding: 45px;
   background-color: #fff7f1;
+  animation: fadeInDown 1s ease;
 }
 
 .form input {
@@ -25,6 +27,7 @@ body {
   padding: 5px;
   border: 1px solid #ccc;
   border-radius: 7px;
+  animation: bounceInLeft 1s ease;
 }
 
 .form input:hover{
@@ -40,7 +43,6 @@ body {
   border: 1px solid #ccc;
   padding: auto;
   background-image: linear-gradient(to bottom, #b1dfdfef, hsl(0, 35%, 85%));
-
 }
 
 .form .input-container {
@@ -48,6 +50,7 @@ body {
   margin-bottom: 7px;
   display: flex;
   flex-direction: column;
+  animation: fadeInUp 1s ease;
 }
 
 .form label {
@@ -58,6 +61,7 @@ body {
   display: flex;
   justify-content: center;
   margin-top: 1%;
+  animation: fadeIn 1s ease;
 }
 
 .button-Type1 {
@@ -80,14 +84,14 @@ body {
   background: #fff7f1;
   color: #424874;
 }
+
 a {
   text-decoration: none;
   color: #433c87;
 }
 
-
 @media (max-width: 400px) {
-  .form{
+  .form {
     width: 65%;
-    }
   }
+}
