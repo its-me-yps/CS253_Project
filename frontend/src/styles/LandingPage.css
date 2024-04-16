@@ -27,7 +27,7 @@ body {
   padding: 5px;
   border: 1px solid #ccc;
   border-radius: 7px;
-  animation: bounceInLeft 1s ease;
+  animation: bounceInLeft 1.1s ease;
 }
 
 .form input:hover{
