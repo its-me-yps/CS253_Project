@@ -3,7 +3,7 @@
   "name": "Create React App Sample",
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "DBMS_LOGO.png",
       "sizes": "64x64 64x64 64x64 64x64",
       "type": "image/x-icon"
     },
@@ -23,4 +23,3 @@
   "theme_color": "#000000",
   "background_color": "#ffffff"
 }
-
