@@ -125,7 +125,7 @@ const StudentCalendar = () => {
                 </DialogContent>
             </Dialog>
             <div className='flex pt-3'>
-            <a href="https://rzp.io/l/2jHJBzsL1k">
+            <a href="https://rzp.io/l/SIdstorK">
                 <Button variant='contained' className='print-button' >
                    Pay dues
                 </Button></a>
