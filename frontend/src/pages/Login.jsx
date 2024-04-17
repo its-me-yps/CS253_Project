@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import "../styles/Login.css";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaArrowLeft } from 'react-icons/fa';
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Login() {
     const location = useLocation();
@@ -44,26 +46,42 @@ function Login() {
     }
 
     const handleLogin = async() => {
-        if (username === "" || password === "")
-            alert("Please enter all the fields");
+        if (username === "" || password === "") {
+            showToast("Please enter all the fields", "error");
+        }
         else{
             const isValidUser = await verifyUser();
             if (isValidUser) {
-                if(userType === "student" && isValidUser){
+                showToast("Logged in", "success");
+                if(userType === "student"){
                     navigator('/StudentDashboard');
-                }
-                else{
+                } else {
                     navigator('/WashermanSelection');
                 }
             }
             else{
-                alert("Invalid Credentials");
+                showToast("Invalid Credentials", "error");
             }
+        }
+    }
+
+    const showToast = (message, type) => {
+        if (type === "success") {
+            toast.success(message, {
+                position: "top-center",
+                autoClose: 2000,
+            });
+        } else {
+            toast.error(message, {
+                position: "top-center",
+                autoClose: 2000,
+            });
         }
     }
 
     return (
         <div className="flex items-center justify-center h-screen p-10 max-w-xl mx-auto" style={{ backgroundImage: 'linear-gradient(to bottom, #b1dfdfef, hsl(0, 35%, 85%))' }}>
+            <ToastContainer/>
             <div className="form">
                 <div className='ArrowContainer_washer' ><Link to="/"><FaArrowLeft className='arrow_washer' /></Link></div>
                 <h1>Login</h1>
