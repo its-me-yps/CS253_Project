@@ -11,7 +11,7 @@ const Below = ({ counter }) => {
     }, [counter]);
 
     const calculateTotal = () => {
-        let x = counter['1'] * 10 + counter['2'] * 10 + counter['3'] * 10 + counter['4'] * 30 + counter['5'] * 50;
+        let x = counter['1'] * 10 + counter['2'] * 10 + counter['3'] * 10 + counter['4'] * 10 + counter['5'] * 10;
         let y = counter['1'] + counter['2'] + counter['3'] + counter['4'] + counter['5'];
         setTotal(x);
         setCtotal(y);
