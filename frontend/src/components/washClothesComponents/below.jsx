@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Below = ({ counter }) => {
     const [total, setTotal] = useState(0);
@@ -43,26 +45,36 @@ const Below = ({ counter }) => {
             });
 
             if (response.ok) {
-                alert('Wash Request Made');
+                toast.success("Wash Request made.", {
+                    position: "top-center",
+                    autoClose: 2000,
+                  });
             } else if (response.status === 400) {
                 const data = await response.json();
                 alert(data.message); // Request already accepted
             } else if (response.status === 500) {
-                alert('Internal Server Error'); // Internal server error
+                toast.success("Internal Server Error", {
+                    position: "top-center",
+                    autoClose: 2000,
+                  });
             } else {
-                alert('Error making wash request'); // Other errors
+                toast.success("Error making Wash request", {
+                    position: "top-center",
+                    autoClose: 2000,
+                  });
             }
 
             navigate("/StudentDashboard");
         } catch (error) {
             console.error('Error making wash request:', error);
-            alert('Error making wash request');
+            // alert('Error making wash request');
         }
     };
 
     return (
         <>
             <div className="flex">
+                <ToastContainer/>
                 <div className="text-2xl font-bold text-blue-500">
                     Total Clothes:
                 </div>

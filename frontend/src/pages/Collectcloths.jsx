@@ -5,6 +5,8 @@ import Button from '@mui/material/Button';
 import '../styles/Collectcloths.css';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Collectcloths = () => {
     const [records, setRecords] = useState([]);
@@ -26,7 +28,10 @@ const Collectcloths = () => {
             });
 
             if (!response.ok) {
-                throw new Error('Failed to fetch records');
+                toast.error("Failed to fetch record", {
+                    position: "top-center",
+                    autoClose: 2000,
+                  });
             }
 
             const data = await response.json();
@@ -61,7 +66,10 @@ const Collectcloths = () => {
             const updatedRecords = [...records];
             updatedRecords[studentIndex].records[recordIndex].accept = true;
             setRecords(updatedRecords);
-            window.alert('Cloths are being accepted');
+            toast.success("Clothes has been accepted", {
+                position: "top-center",
+                autoClose: 2000,
+              });
             // Refetch records to get the updated data
             fetchRecords();
         } catch (error) {
@@ -86,6 +94,7 @@ const Collectcloths = () => {
             <Button variant="contained" startIcon={<ArrowBackIcon />}onClick={backButton} style={{marginLeft:'0px', important:true}} >
         BACK
       </Button>
+      <ToastContainer/>
             <h2><b>Records</b></h2>
             <table>
                 <thead>
