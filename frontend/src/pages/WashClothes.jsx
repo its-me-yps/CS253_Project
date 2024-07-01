@@ -43,12 +43,9 @@ const WashClothes = () => {
         back
       </Button>
       <div className="text-2xl font-bold text-blue-500">
-
-        Please chose Clothes
+        Kindly! select Clothes
       </div>
-      {/* <div>
-        <Tab/>
-      </div> */}
+     
       <div className="App">
         <ClothItem counter={counter['1']} onclick1={() => incrementCounter('1')} onclick2={() => decrementCounter('1')} cloth={'upper wear'} imx={'Tshirt.png'} />
         <ClothItem counter={counter['2']} onclick1={() => incrementCounter('2')} onclick2={() => decrementCounter('2')} cloth={'Lower wear'} imx={'pants.png'} />

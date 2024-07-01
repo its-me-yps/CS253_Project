@@ -13,7 +13,6 @@ const SummaryPage = () => {
 
 const navigate = useNavigate();
 const backButton=()=>{
-
    navigate("/WashermanDashboard")
 }
   useEffect(() => {
@@ -26,10 +25,9 @@ const backButton=()=>{
             'Content-Type': 'application/json',
         },
         credentials: 'include',
-        body: JSON.stringify({ hall, wing }),
-        
+        body: JSON.stringify({ hall, wing }),   
     });
-        if (!response.ok) {
+       if (!response.ok) {
           throw new Error('Failed to fetch summary data');
         }
         const data = await response.json();
@@ -40,7 +38,6 @@ const backButton=()=>{
         setLoading(false);
       }
     };
-
     fetchSummaryData();
   },[]);
 if(loading)
@@ -52,8 +49,6 @@ if(error)
     return <div>Error: {error}</div>
 }
 return (
-  
-      
     <div>
       <Button variant="contained" startIcon={<ArrowBackIcon />}onClick={backButton}  >
         Back
@@ -91,8 +86,7 @@ return (
           </tbody>
         </table>
       )}
-    </div>
-    
+    </div>  
   );
 };
 
